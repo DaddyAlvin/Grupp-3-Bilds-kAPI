@@ -1,7 +1,5 @@
 import { bild } from "./bild.js";
 
-const loadImageButtonDog = document.getElementById("loadImageDog");
-const loadImageButtonCat = document.getElementById("loadImageCat");
 const searchForm = document.getElementById("findUserSearch");
 const tagInput = document.getElementById("tagInput");
 // Typ random startsida
@@ -19,18 +17,5 @@ searchForm.addEventListener("submit", (event) => {
     gallery.load();
 });
 
-loadImageButtonDog.addEventListener("click", () => {
-    const doggallery = new bild("gallery", "dogs");
-
-    doggallery.load();
-
-});
-
-loadImageButtonCat.addEventListener("click", () => {
-    const catgallery = new bild("gallery", "cats");
-
-    catgallery.load();
-    
-});
 
 startGallery.load();
