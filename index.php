@@ -15,8 +15,6 @@
         <button type="submit">Sök</button>
     </form>
     <div id="gallery"></div>
-    <button id="loadImageDog">Ladda ny Hund</button>
-    <button id="loadImageCat">Ladda ny katt</button>
-    
+
 </body>
 </html>
