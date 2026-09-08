@@ -1,6 +1,8 @@
 <?php
 // Tvingar PHP att använda strikt typkontroll i den här filen.
 declare(strict_types=1);
+$maxFetches = 3;
+$fetchCount = 0;
 
 // Används när Wikimedia inte levererar någon information om bildens ägare.
 const OWNER_UNAVAILABLE = 'Ägare ej tillgänglig';
@@ -10,7 +12,7 @@ const OWNER_UNAVAILABLE = 'Ägare ej tillgänglig';
 const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (contact: alvinsandgren)';
 
 // Varje API-svar ska innehålla högst fem färdiga bildobjekt.
-const PHOTOS_PER_PAGE = 5;
+const PHOTOS_PER_PAGE = 50;
 
 // API:t fungerar som en server-side proxy mot Wikimedia Commons.
 // JavaScript får alltid JSON i stället för HTML eller färdig bildvisning.
@@ -88,6 +90,7 @@ $photos = [];
 // Ett Wikimedia-svar kan innehålla bilder utan URL eller koordinater.
 // Loopen hämtar nästa Wikimedia-sida tills vi har fem giltiga bilder eller är slut.
 do {
+	$fetchCount++;
 	// Hämta rå JSON från Wikimedia via vår felhanterande hjälpfunktion.
 	$body = fetchWikimediaData($query);
 
@@ -119,7 +122,7 @@ do {
 		// Fortsätt med samma grundsökning och lägg till Wikimedia-token.
 		$query = http_build_query(array_merge($queryParameters, $continuation));
 	}
-} while (count($photos) < PHOTOS_PER_PAGE && is_array($continuation));
+} while (count($photos) < PHOTOS_PER_PAGE && is_array($continuation) && $fetchCount < $maxFetches);
 
 // Spara tokenen för nästa sida om Wikimedia har fler resultat.
 $nextContinuation = is_array($data['continue'] ?? null)
