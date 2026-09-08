@@ -4,72 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Testa bild-API</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			max-width: 960px;
-			margin: 2rem auto;
-			padding: 0 1rem;
-			background: #f0f0f0;
-		}
-
-		form {
-			display: flex;
-			gap: 0.5rem;
-			flex-wrap: wrap;
-		}
-
-		input,
-		button {
-			padding: 0.6rem;
-			font-size: 1rem;
-		}
-
-		input {
-			flex: 1 1 240px;
-		}
-
-		button {
-			cursor: pointer;
-		}
-
-		#status {
-			margin-top: 1rem;
-			font-weight: bold;
-		}
-
-		#gallery {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-			gap: 1rem;
-			margin-top: 1rem;
-		}
-
-		figure {
-			margin: 0;
-			background: white;
-			padding: 0.5rem;
-		}
-
-		img {
-			display: block;
-			width: 100%;
-			aspect-ratio: 1;
-			object-fit: cover;
-		}
-
-		figcaption {
-			margin-top: 0.5rem;
-			overflow-wrap: anywhere;
-		}
-
-		pre {
-			overflow: auto;
-			padding: 1rem;
-			background: #222;
-			color: #eee;
-		}
-	</style>
+	
 </head>
 <body>
 	<h1>Testa bild-API:t</h1>

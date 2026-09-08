@@ -1,3 +1,21 @@
 body {
-    background-color: #f0f0f0;
+    background-color: #ffffff;
+}
+main {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+body img {
+    width: 100%;
+    max-width: 200px;  
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    justify-self: center; 
+}
+
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
 }
