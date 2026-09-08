@@ -3,54 +3,47 @@ export class bild {
         this.container = document.getElementById(containerId);
         this.tag = tag;
     }
-    //easy super peasy
-    renderRandomImage(data) {
+    renderImages(data) {
         this.container.innerHTML = "";
 
-        const pages = Object.values(data.query?.pages ?? {}).filter(
-            (page) => page.imageinfo?.[0]?.thumburl
-        );
+        const photos = data.photos ?? [];
 
-        if (pages.length === 0) {
+        if (photos.length === 0) {
             this.container.textContent = `Inga bilder hittades för "${this.tag}".`;
             return;
         }
 
-        const item = pages[Math.floor(Math.random() * pages.length)];
-        const image = document.createElement("img");
+        photos.forEach((photo) => {
+            const image = document.createElement("img");
 
-        image.src = item.imageinfo[0].thumburl;
-        image.alt = `Bild med taggen ${this.tag}`;
+            image.src = photo.image_url;
+            image.alt = photo.title || `Bild med sökordet ${this.tag}`;
 
-        this.container.appendChild(image);
+            this.container.appendChild(image);
+        });
     }
 
     //easy peasy
-    load() {
+    async load() {
         const params = new URLSearchParams({
-            action: "query",
-            format: "json",
-            origin: "*",
-            generator: "search",
-            gsrnamespace: "6",
-            gsrsearch: this.tag,
-            prop: "imageinfo",
-            iiprop: "url",
-            iiurlwidth: "500"
+            text: this.tag,
+            page: "1"
         });
 
-        fetch(`https://commons.wikimedia.org/w/api.php?${params}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`API-anropet misslyckades: ${response.status}`);
-                }
+        try {
+            const response = await fetch(`api/api.php?${params}`);
+            const data = await response.json();
 
-                return response.json();
-            })
-            .then((data) => this.renderRandomImage(data))
-            .catch((error) => {
-                console.error("Kunde inte hämta bilden:", error);
-            });
+            if (!response.ok) {
+                throw new Error(data.error || `API-anropet misslyckades: ${response.status}`);
+            }
+
+            this.renderImages(data);
+        } catch (error) {
+            this.container.textContent = "Kunde inte hämta bilderna.";
+            console.error("Kunde inte hämta bilderna:", error);
+        }
+
     }
 
 }
