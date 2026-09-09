@@ -1,71 +1,74 @@
 <?php
-// Tvingar PHP att använda strikt typkontroll i den här filen.
+// Forces PHP to use strict types in this file.
 declare(strict_types=1);
-$maxFetches = 3;
+
+// Changes target to 30 and allows more requests so that enough coordinate images are found.
+const TARGET_PHOTOS = 30;
+$maxFetches = 15;
 $fetchCount = 0;
 
-// Används när Wikimedia inte levererar någon information om bildens ägare.
+// Is used when Wikimedia don't deliver any information about the image owner.
 const OWNER_UNAVAILABLE = 'Ägare ej tillgänglig';
 
-// Wikimedia rekommenderar en identifierande User-Agent så att anrop kan
-// kopplas till rätt applikation om Wikimedia behöver kontakta utvecklaren.
+// Wikimedia recommends an identifieric User-Agent so that requests can
+// be linked to the correct application if Wikimedia needs to contact the developer.
 const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (contact: alvinsandgren)';
 
-// Varje API-svar ska innehålla högst fem färdiga bildobjekt.
+// Every API response should contain at most five ready-made image objects.
 const PHOTOS_PER_PAGE = 50;
 
-// API:t fungerar som en server-side proxy mot Wikimedia Commons.
-// JavaScript får alltid JSON i stället för HTML eller färdig bildvisning.
+// The API works as a server-side proxy against Wikimedia Commons.
+// JavaScript always receives JSON instead of HTML or a finished image view.
 header('Content-Type: application/json; charset=utf-8');
 
-// Tillåter att frontend-applikationen ligger på en annan domän än API:t.
+// Allows the frontend application to be on a different domain than the API.
 header('Access-Control-Allow-Origin: *');
 
-// API:t tar endast emot läsande GET-anrop. OPTIONS behövs för CORS-kontrollen.
+// The API only accepts read-only GET requests. OPTIONS is needed for CORS control.
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-	// Webbläsaren skickar ibland en förfrågan före det riktiga GET-anropet.
-	// Denna kontroll räcker för att bekräfta CORS utan ett onödigt Wikimedia-anrop.
+	// Search engine some times sends a preflight request before the actual GET request.
+	// This check is sufficient to confirm CORS without an unnecessary Wikimedia request.
 	http_response_code(204);
 	exit;
 }
 
-// Alla andra HTTP-metoder än GET ska stoppas innan någon sökning görs.
+// All other HTTP-methods than GET shall be stopped before any search is made.
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 	respond(['error' => 'Metoden stöds inte.'], 405);
 }
 
-// Läs vilken sida frontend vill ha och se till att sidnumret aldrig blir lägre än 1.
+// Read what site the frontend wants and ensure the page number never becomes lower than 1.
 $page = max(getIntParameter('page', 1), 1);
 
-// Söktexten hämtas från URL:ens text-parameter och tomma blanksteg runt den tas bort.
+// The search text is retrieved from the URL's text parameter and any leading or trailing whitespace is removed.
 $text = trim((string)($_GET['text'] ?? ''));
 
-// Continuation-token används av Wikimedia för att fortsätta där föregående sida slutade.
+// Continuation-token uses Wikimedia to continue where the previous page left off.
 $continuationToken = trim((string)($_GET['continuation'] ?? ''));
 
-// Sex sidor med fem bilder vardera begränsar totalt antal hämtade bilder till 30.
+// Six pages with five images each limits the total number of fetched images to 30.
 if ($page > 6) {
 	respond(['error' => 'Maximalt 30 bilder kan hämtas.'], 400);
 }
 
-// Avvisa sökningar som saknar text eller är orimligt långa innan extern data hämtas.
+// Deny searches that lack text or are unreasonablely long before fetching the external data.
 if ($text === '' || stringLength($text) > 200) {
 	respond(['error' => 'Ange en sökterm på 1-200 tecken.'], 400);
 }
 
-// Bygg Wikimedia Commons API:s sökparametrar.
-// Generatorn söker bland sidor i namespace 6, vilket är Commons namespace för filer.
+// Build Wikimedia Commons API search paramaters.
+// The generator searches through pages in namespace 6, which is the Commons namespace for files.
 $queryParameters = [
 	'action' => 'query',
 	'generator' => 'search',
 	'gsrsearch' => $text,
 	'gsrnamespace' => 6,
-	// Be Wikimedia om fem träffar åt gången.
-	'gsrlimit' => PHOTOS_PER_PAGE,
-	// Hämta både bildinformation och koordinater så mapPhoto kan skapa vårt objekt.
+	// Ask wikimedia for 50 images per page so that enough images with coordinates are found.
+	'gsrlimit' => 50,
+	// Get both the imageinfo and coordinates so that mapPhoto can create our object.
 	'prop' => 'imageinfo|coordinates',
 	'iiprop' => 'url',
 	'format' => 'json',
@@ -88,7 +91,7 @@ $query = http_build_query($queryParameters);
 $photos = [];
 
 // Ett Wikimedia-svar kan innehålla bilder utan URL eller koordinater.
-// Loopen hämtar nästa Wikimedia-sida tills vi har fem giltiga bilder eller är slut.
+// Loopen hämtar nästa Wikimedia-sida tills vi har 30 giltiga bilder eller är slut.
 do {
 	$fetchCount++;
 	// Hämta rå JSON från Wikimedia via vår felhanterande hjälpfunktion.
@@ -102,7 +105,7 @@ do {
 		respond(['error' => 'Wikimedia Commons returnerade ett ogiltigt svar.'], 502);
 	}
 
-	// Wikimedia använder en pages-array. Varje sida motsvarar normalt en bildfil.
+	// Wikimedia uses a pages array. Each page normally represents an image file.
 	foreach ($data['query']['pages'] ?? [] as $photo) {
 		// mapPhoto returnerar null om bilden saknar obligatoriska eller giltiga uppgifter.
 		$mappedPhoto = mapPhoto($photo);
@@ -110,27 +113,27 @@ do {
 			$photos[] = $mappedPhoto;
 		}
 
-		// Sluta direkt när batchen är full så att vi inte skickar fler än fem objekt.
-		if (count($photos) >= PHOTOS_PER_PAGE) {
+		// Stop immediately when we have reached 30 approved images.
+		if (count($photos) >= TARGET_PHOTOS) {
 			break;
 		}
 	}
 
-	// Ett continue-fält betyder att Wikimedia har fler träffar att lämna ut.
+	// A continue field means that Wikimedia has more results to provide.
 	$continuation = $data['continue'] ?? null;
-	if (count($photos) < PHOTOS_PER_PAGE && is_array($continuation)) {
-		// Fortsätt med samma grundsökning och lägg till Wikimedia-token.
+	if (count($photos) < TARGET_PHOTOS && is_array($continuation)) {
+		// Continue with the same base search and add the Wikimedia token.
 		$query = http_build_query(array_merge($queryParameters, $continuation));
 	}
-} while (count($photos) < PHOTOS_PER_PAGE && is_array($continuation) && $fetchCount < $maxFetches);
+} while (count($photos) < TARGET_PHOTOS && is_array($continuation) && $fetchCount < $maxFetches);
 
-// Spara tokenen för nästa sida om Wikimedia har fler resultat.
+// Save the token for the next page if Wikimedia has more results.
 $nextContinuation = is_array($data['continue'] ?? null)
 	? $data['continue']
 	: null;
 
-// Skicka ett JSON-objekt till JavaScript.
-// photos innehåller bildobjekten, medan övriga fält beskriver pagineringen.
+// Send a JSON object to JavaScript.
+// photos contains the image objects, while the other fields describe pagination.
 respond([
 	'page' => $page,
 	'pages' => $nextContinuation === null ? $page : $page + 1,
@@ -141,85 +144,85 @@ respond([
 
 function respond(array $payload, int $status = 200): never
 {
-	// Sätt HTTP-statusen så frontend kan skilja lyckade svar från fel.
+	// Set the HTTP status so the frontend can distinguish successful responses from errors.
 	http_response_code($status);
 
-	// Omvandla PHP-arrayen till JSON som kan läsas direkt av JavaScript.
-	// UNESCAPED_UNICODE bevarar svenska tecken och UNESCAPED_SLASHES ger rena URL:er.
+	// Convert the PHP array to JSON that JavaScript can read directly.
+	// UNESCAPED_UNICODE preserves Swedish characters and UNESCAPED_SLASHES produces clean URLs.
 	echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-	// Ett svar ska avsluta skriptet så att inget extra innehåll råkar läggas till.
+	// A response must end the script so that no extra content is accidentally added.
 	exit;
 }
 
 function parseCoordinate(mixed $value, float $min, float $max): ?float
 {
-	// Koordinaten måste först vara ett numeriskt värde innan den kan konverteras.
+	// The coordinate must first be a numeric value before it can be converted.
 	if (!is_numeric($value)) {
 		return null;
 	}
 
-	// Gör värdet till float eftersom latitud och longitud är decimaltal.
+	// Convert the value to a float because latitude and longitude are decimal values.
 	$value = (float)$value;
 
-	// Returnera bara koordinater inom jordens giltiga intervall.
+	// Return only coordinates within Earth's valid ranges.
 	return $value >= $min && $value <= $max ? $value : null;
 }
 
 function getIntParameter(string $name, int $default): int
 {
-	// Läs en heltalsparameter säkert från GET-parametrarna.
+	// Safely read an integer parameter from the GET parameters.
 	$value = filter_input(INPUT_GET, $name, FILTER_VALIDATE_INT);
 
-	// Använd standardvärdet om parametern saknas eller inte är ett heltal.
+	// Use the default value if the parameter is missing or is not an integer.
 	return $value === false || $value === null ? $default : $value;
 }
 
 function stringLength(string $value): int
 {
-	// mb_strlen räknar svenska och andra Unicode-tecken korrekt som tecken.
-	// Fallbacken gör ändå funktionen användbar om mbstring-tillägget saknas.
+	// mb_strlen correctly counts Swedish and other Unicode characters as characters.
+	// The fallback still makes the function useful if the mbstring extension is missing.
 	return function_exists('mb_strlen') ? mb_strlen($value) : strlen($value);
 }
 
 function mapPhoto(mixed $photo): ?array
 {
-	// Säkerställ att Wikimedia-posten verkligen är en array innan fält läses.
+	// Ensure that the Wikimedia entry is actually an array before reading fields.
 	if (!is_array($photo)) {
 		return null;
 	}
 
-	// Hämta bildens original-URL och avvisa värden som inte är giltiga URL:er.
+	// Get the image's original URL and reject values that are not valid URLs.
 	$imageUrl = filter_var((string)($photo['imageinfo'][0]['url'] ?? ''), FILTER_VALIDATE_URL);
 	if ($imageUrl === false) {
 		return null;
 	}
 
-	// Coordinates och imageinfo ligger i arrayer eftersom Wikimedia kan ha flera värden.
-	// Den första koordinaten används som bildens geografiska position.
+	// Coordinates and imageinfo are arrays because Wikimedia can have multiple values.
+	// The first coordinate is used as the image's geographic position.
 	$coordinates = $photo['coordinates'][0] ?? [];
 	$latitude = parseCoordinate($coordinates['lat'] ?? null, -90, 90);
 	$longitude = parseCoordinate($coordinates['lon'] ?? null, -180, 180);
 
-	// Bilder utan både giltig latitud och longitud kan inte användas av kart-/platslogiken.
+	// Images without both a valid latitude and longitude cannot be used by the map/location logic.
 	if ($latitude === null || $longitude === null) {
 		return null;
 	}
 
-	// Skapa ett förenklat och stabilt objekt för frontend.
-	// Frontend behöver inte känna till Wikimedia-svaret eller dess interna struktur.
+	// Create a simplified and stable object for the frontend.
+	// The frontend does not need to know about the Wikimedia response or its internal structure.
 	return [
-		// pageid fungerar som ett identifierande värde för bilden hos Wikimedia.
+		// pageid functions as an identifying value for the image at Wikimedia.
 		'id' => (string)($photo['pageid'] ?? ''),
-		// Ta bort eventuell HTML från titeln innan den skickas till JavaScript.
+		// Remove any HTML from the title before sending it to JavaScript.
 		'title' => trim(strip_tags((string)($photo['title'] ?? ''))),
-		// URL:en används av frontend när bilden ska laddas.
+		// The URL is used by the frontend when the image is loaded.
 		'image_url' => $imageUrl,
-		// Wikimedia-resultatet innehåller inte alltid ägarinformation i denna fråga.
+		// The Wikimedia result does not always contain owner information in this request.
 		'owner' => OWNER_UNAVAILABLE,
-		// En färdig textrepresentation är praktisk för enkel visning.
+		// A ready-made text representation is convenient for simple display.
 		'location' => $latitude . ', ' . $longitude,
-		// Separata numeriska värden kan användas av exempelvis kartlogik.
+		// Separate numeric values can be used by, for example, map logic.
 		'latitude' => $latitude,
 		'longitude' => $longitude,
 	];
@@ -227,22 +230,22 @@ function mapPhoto(mixed $photo): ?array
 
 function fetchWikimediaData(string $query): string
 {
-	// Sätt ihop Wikimedia-URL:en med den redan URL-kodade querystringen.
+	// Assemble the Wikimedia URL with the already URL-encoded query string.
 	$ch = curl_init('https://commons.wikimedia.org/w/api.php?' . $query);
 
-	// Konfigurera cURL för ett server-till-server-anrop som returnerar text.
+	// Configure cURL for a server-to-server request that returns text.
 	curl_setopt_array($ch, [
 		// Returnera svaret till variabeln i stället för att skriva ut det direkt.
 		CURLOPT_RETURNTRANSFER => true,
-		// Avsluta om Wikimedia inte svarar inom tio sekunder.
+		// Abort if Wikimedia does not respond within ten seconds.
 		CURLOPT_TIMEOUT => 10,
-		// Anslutningen får högst ta fem sekunder att etablera.
+		// The connection may take no more than five seconds to establish.
 		CURLOPT_CONNECTTIMEOUT => 5,
-		// Följ inte omdirigeringar automatiskt från en extern tjänst.
+		// Do not automatically follow redirects from an external service.
 		CURLOPT_FOLLOWLOCATION => false,
-		// Acceptera komprimerade svar för att minska mängden överförd data.
+		// Accept compressed responses to reduce the amount of transferred data.
 		CURLOPT_ENCODING => '',
-		// Tala om att vi vill ha JSON och identifiera applikationen för Wikimedia.
+		// Indicate that we want JSON and identify the application to Wikimedia.
 		CURLOPT_HTTPHEADER => [
 			'Accept: application/json',
 			'User-Agent: ' . WIKIMEDIA_USER_AGENT,
@@ -253,36 +256,36 @@ function fetchWikimediaData(string $query): string
 	$curlError = curl_error($ch);
 	curl_close($ch);
 
-	// Hantera nätverksfel, timeout och HTTP-statusar som inte betyder lyckat svar.
+	// Handle network errors, timeouts, and HTTP statuses that do not indicate a successful response.
 	if ($body === false || $curlError !== '' || $status < 200 || $status >= 300) {
 		respond(['error' => 'Kunde inte hämta data från Wikimedia Commons.'], 502);
 	}
 
-	// Returnera råsvaret så huvudflödet kan tolka och omforma det.
+	// Return the raw response so the main flow can parse and transform it.
 	return $body;
 }
 
 function encodeContinuation(array $continuation): string
 {
-	// Wikimedia-tokenen är en array. JSON gör den strukturerad innan kodning.
-	// Base64-url-formatet gör tokenen säker att skicka som URL-parameter.
+	// The Wikimedia token is an array. JSON makes it structured before encoding.
+	// The Base64 URL format makes the token safe to send as a URL parameter.
 	return rtrim(strtr(base64_encode((string)json_encode($continuation)), '+/', '-_'), '=');
 }
 
 function decodeContinuation(string $token): ?array
 {
-	// En tom token betyder att sökningen ska börja från första resultatet.
+	// An empty token means that the search should start from the first result.
 	if ($token === '') {
 		return null;
 	}
 
-	// Base64 behöver ibland utfyllnadstecken för att längden ska bli delbar med fyra.
+	// Base64 sometimes needs padding characters for the length to be divisible by four.
 	$padding = strlen($token) % 4;
 
-	// Återställ URL-safe Base64, avkoda tokenen och tolka dess JSON-innehåll.
+	// Restore URL-safe Base64, decode the token, and parse its JSON contents.
 	$decoded = base64_decode(strtr($token . str_repeat('=', $padding === 0 ? 0 : 4 - $padding), '-_', '+/'), true);
 	$continuation = is_string($decoded) ? json_decode($decoded, true) : null;
 
-	// Ogiltig token behandlas som om ingen continuation skickats.
+	// An invalid token is treated as if no continuation had been sent.
 	return is_array($continuation) ? $continuation : null;
 }
