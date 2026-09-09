@@ -2,20 +2,32 @@ import { bild } from "./bild.js";
 
 const searchForm = document.getElementById("findUserSearch");
 const tagInput = document.getElementById("tagInput");
-// Typ random startsida
-const tags = ["cats", "dogs", "cars", "nature", "space"];
-const randomTag = tags[Math.floor(Math.random() * tags.length)];
+const tags = JSON.parse(localStorage.getItem("tags") || "[]");
+const frontPageTags = ["cats", "dogs", "nature", "technology", "architecture", "food", "travel", "history"];
 
-const startGallery = new bild("gallery", randomTag);
+function getRandomTag(tagList) {
+    const randomIndex = Math.floor(Math.random() * tagList.length);
+    return tagList[randomIndex];
+}
+
+function loadGallery(tag) {
+    tagInput.value = tag;
+    new bild("gallery", tag).load();
+}
 
 searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const searchTerm = tagInput.value.trim();
-    const gallery = new bild("gallery", searchTerm);
+    if (!searchTerm) {
+        return;
+    }
 
-    gallery.load();
+    tags.push(searchTerm);
+    localStorage.setItem("tags", JSON.stringify(tags));
+    loadGallery(searchTerm);
+
 });
 
 
-startGallery.load();
+loadGallery(getRandomTag(frontPageTags));
