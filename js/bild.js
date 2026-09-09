@@ -3,6 +3,7 @@ export class bild {
         this.container = document.getElementById(containerId);
         this.tag = tag;
     }
+    
     renderImages(data) {
         this.container.innerHTML = "";
 
@@ -14,6 +15,8 @@ export class bild {
         }
 
         photos.forEach((photo) => {
+            console.log("Latitud:", photo.latitude);
+            console.log("Longitud:", photo.longitude);
             const image = document.createElement("img");
 
             image.src = photo.image_url;
