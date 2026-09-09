@@ -8,6 +8,6 @@ onsdag 09/09:
 
 Alvin: Idag har jag bugfixat med apin i backenden, sen har jag mergat ihop projektet till main för nya branches och till sist har jag även påbörjat med inlogg och likesystem
 ###
-Edwin:
+Edwin: Gjort research om hur kan använder leaflet. Samt har jag och Alvin diskuterat lite hur vi kan gå vidare med vårat projekt!!. Samt har jag också fixat en bättre FYP (for you page) som tar data ifrån dina tidigare sökningar och använder den datan för att visa bilder på hemskärmen.
 ###
 Aleksander: Jag ändrade om searchbaren så den ser bättre ut, jag anpassade bilderna(storlek, border radius mm), lade till hover effekt på bilderna.
