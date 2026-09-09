@@ -10,4 +10,4 @@ Alvin: Idag har jag bugfixat med apin i backenden, sen har jag mergat ihop proje
 ###
 Edwin:
 ###
-Aleksander:
+Aleksander: Jag ändrade om searchbaren så den ser bättre ut, jag anpassade bilderna(storlek, border radius mm), lade till hover effekt på bilderna.
