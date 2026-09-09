@@ -1,0 +1,114 @@
+body {
+    background-color: #ffffff;
+}
+main {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+body img {
+    width: 100%;
+    max-width: 200px;  
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    justify-self: center; 
+}
+
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+#gallery img {
+    cursor: pointer;
+}
+
+#imageModal {
+    width: min(90vw, 1000px);
+    max-width: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+#imageModal::backdrop {
+    background: rgb(0 0 0 / 75%);
+}
+
+.modal-content {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+    gap: 24px;
+    padding: 24px;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.modal-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    z-index: 1;
+    border: 0;
+    background: transparent;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.modal-image-wrap {
+    display: grid;
+    min-height: 300px;
+    place-items: center;
+    background: #111111;
+}
+
+.modal-image-wrap img {
+    width: auto;
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+}
+
+.modal-details {
+    padding: 24px 0 0;
+}
+
+.modal-details h2 {
+    margin-top: 0;
+}
+
+.coordinates {
+    display: grid;
+    gap: 8px;
+    padding: 16px;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+}
+
+.map-placeholder {
+    display: grid;
+    min-height: 180px;
+    margin-top: 20px;
+    place-items: center;
+    border: 2px dashed #aaaaaa;
+    color: #666666;
+    background: #f4f4f4;
+}
+
+@media (max-width: 700px) {
+    #gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-content {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+
+    .modal-details {
+        padding-top: 0;
+    }
+}
