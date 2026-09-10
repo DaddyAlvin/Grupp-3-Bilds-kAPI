@@ -1,7 +1,7 @@
 <?php
 // Enable strict typing and load the shared database connection.
 declare(strict_types=1);
-require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../db/db.php';
 session_start();
 
 // Every response from this endpoint is JSON.

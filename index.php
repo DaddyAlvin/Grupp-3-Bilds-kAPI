@@ -29,14 +29,14 @@ $username = $_SESSION['username'] ?? '';
             <?php if ($isLoggedIn): ?>
                 <div class="user-logged-in">
                     <span>Inloggad som: <strong><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></strong></span>
-                    <a href="favourites.php" class="nav-button">Mina favoriter</a>
-                    <a href="logout.php" class="nav-button logout">Logga ut</a>
+                    <a href="db/favourites.php" class="nav-button">Mina favoriter</a>
+                    <a href="login/logout.php" class="nav-button logout">Logga ut</a>
                 </div>
             <?php else: ?>
                 <div class="auth-notice">
                     <p>Du måste ha ett konto för att kunna spara favoritbilder.</p>
-                    <a href="login.php" class="nav-button">Logga in</a>
-                    <a href="register.php" class="nav-button highlight">Skapa konto</a>
+                    <a href="login/login.php" class="nav-button">Logga in</a>
+                    <a href="login/register.php" class="nav-button highlight">Skapa konto</a>
                 </div>
             <?php endif; ?>
         </div>

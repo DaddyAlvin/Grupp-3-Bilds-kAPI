@@ -1,11 +1,11 @@
 <?php
 // Load the database connection and the current user session.
-require_once 'db.php';
+require_once __DIR__ . '/db.php';
 session_start();
 
 // Favorites are available only to authenticated users.
 if (empty($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: ../index.php');
     exit;
 }
 
@@ -32,15 +32,15 @@ if ($stmt) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mina favoriter</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <header class="top-bar">
         <h1>Mina Favoritbilder</h1>
         <div class="user-session-container">
             <span class="user-welcome">Inloggad som: <strong><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></strong></span>
-            <a href="index.php" class="nav-button">Tillbaka till sök</a>
-            <a href="logout.php" class="nav-button logout">Logga ut</a>
+            <a href="../index.php" class="nav-button">Tillbaka till sök</a>
+            <a href="../login/logout.php" class="nav-button logout">Logga ut</a>
         </div>
     </header>
 
