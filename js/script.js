@@ -5,6 +5,7 @@ const tagInput = document.getElementById("tagInput");
 const tags = JSON.parse(localStorage.getItem("tags") || "[]");
 const frontPageTags = ["cats", "dogs", "nature", "technology", "architecture", "food", "travel", "history"];
 
+
 function getRandomTag(tagList) {
     const randomIndex = Math.floor(Math.random() * tagList.length);
     return tagList[randomIndex];

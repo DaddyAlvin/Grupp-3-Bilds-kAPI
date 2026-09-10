@@ -7,6 +7,8 @@ export class bild {
         this.modalTitle = document.getElementById("modalTitle");
         this.modalLatitude = document.getElementById("modalLatitude");
         this.modalLongitude = document.getElementById("modalLongitude");
+        this.map = null;
+        this.marker = null;
 
         if (!this.modal.dataset.eventsBound) {
             this.modal.querySelector(".modal-close").addEventListener("click", () => {
@@ -53,6 +55,18 @@ export class bild {
         });
     }
 
+    renderLoading() {
+        this.container.innerHTML = "";
+        this.container.setAttribute("aria-busy", "true");
+
+        for (let index = 0; index < 30; index += 1) {
+            const placeholder = document.createElement("div");
+            placeholder.className = "image-placeholder";
+            placeholder.setAttribute("aria-hidden", "true");
+            this.container.appendChild(placeholder);
+        }
+    }
+
     openModal(photo) {
         this.modalImage.src = photo.image_url;
         this.modalImage.alt = photo.title || `Bild med sökordet ${this.tag}`;
@@ -60,6 +74,16 @@ export class bild {
         this.modalLatitude.textContent = photo.latitude;
         this.modalLongitude.textContent = photo.longitude;
         this.modal.showModal();
+        this.map = L.map("map");
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "&copy"
+        }).addTo(this.map);
+        if (this.marker) {
+            this.map.removeLayer(this.marker);
+        }
+        this.marker = L.marker([photo.latitude, photo.longitude]).addTo(this.map);
+
+        this.map.setView([photo.latitude, photo.longitude], 13);
     }
 
     //easy peasy
@@ -68,6 +92,8 @@ export class bild {
             text: this.tag,
             page: "1"
         });
+
+        this.renderLoading();
 
         try {
             const response = await fetch(`api/api.php?${params}`);
