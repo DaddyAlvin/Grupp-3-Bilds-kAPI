@@ -44,6 +44,7 @@ export class bild {
     renderImages(data) {
         // Replace the previous results with the images returned by the API.
         this.container.innerHTML = "";
+        this.container.removeAttribute("aria-busy");
         const photos = data.photos ?? [];
 
         if (photos.length === 0) {
@@ -194,6 +195,7 @@ async toggleLike() {
 
             this.renderImages(data);
         } catch (error) {
+            this.container.removeAttribute("aria-busy");
             this.container.textContent = "Kunde inte hämta bilderna.";
             console.error("Kunde inte hämta bilderna:", error);
         }
