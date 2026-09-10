@@ -40,6 +40,7 @@ export class bild {
             image.alt = photo.title || `Bild med sökordet ${this.tag}`;
             image.setAttribute("role", "button");
             image.setAttribute("aria-label", `Visa ${image.alt} i större format`);
+            image.loading = "lazy";
             image.tabIndex = 0;
             image.addEventListener("click", () => this.openModal(photo));
             image.addEventListener("keydown", (event) => {

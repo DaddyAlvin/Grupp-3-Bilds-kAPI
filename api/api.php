@@ -12,7 +12,7 @@ const OWNER_UNAVAILABLE = 'Ägare ej tillgänglig';
 
 // Wikimedia recommends an identifieric User-Agent so that requests can
 // be linked to the correct application if Wikimedia needs to contact the developer.
-const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (contact: alvinsandgren)';
+const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (https://github.com/alvinsandgren; alvin_sandgren@icloud.com)';
 
 // Every API response should contain at most five ready-made image objects.
 const PHOTOS_PER_PAGE = 50;
@@ -67,14 +67,13 @@ $queryParameters = [
 	'gsrsearch' => $text,
 	'gsrnamespace' => 6,
 	// Ask wikimedia for 50 images per page so that enough images with coordinates are found.
-	'gsrlimit' => 50,
+	'gsrlimit' => 500,
 	// Get both the imageinfo and coordinates so that mapPhoto can create our object.
 	'prop' => 'imageinfo|coordinates',
-	'iiprop' => 'url',
+	'iiprop' => 'url|thumbmime|mime',
+	'iiurlwidth' => 600,
 	'format' => 'json',
 	'origin' => '*',
-	// Ber Wikimedia vänta om deras servrar har hög belastning.
-	'maxlag' => 5,
 ];
 
 // En token finns bara när frontend hämtar en senare sida.
@@ -193,7 +192,8 @@ function mapPhoto(mixed $photo): ?array
 	}
 
 	// Get the image's original URL and reject values that are not valid URLs.
-	$imageUrl = filter_var((string)($photo['imageinfo'][0]['url'] ?? ''), FILTER_VALIDATE_URL);
+	// Use thumburl as a first measure, fallback to url if neccesary
+	$imageUrl = filter_var((string)($photo['imageinfo'][0]['thumburl'] ?? $photo['imageinfo'][0]['url'] ?? ''), FILTER_VALIDATE_URL);
 	if ($imageUrl === false) {
 		return null;
 	}
@@ -258,8 +258,11 @@ function fetchWikimediaData(string $query): string
 
 	// Handle network errors, timeouts, and HTTP statuses that do not indicate a successful response.
 	if ($body === false || $curlError !== '' || $status < 200 || $status >= 300) {
-		respond(['error' => 'Kunde inte hämta data från Wikimedia Commons.'], 502);
-	}
+    respond([
+        'error' => "cURL-fel: {$curlError} | HTTP status: {$status}",
+        'raw_body' => $body
+    ], 502);
+}
 
 	// Return the raw response so the main flow can parse and transform it.
 	return $body;
