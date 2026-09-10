@@ -1,19 +1,6 @@
 body {
     background-color: #ffffff;
 }
-main {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-}
-
-body img {
-    width: 100%;
-    max-width: 200px;  
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    justify-self: center; 
-}
-
 #gallery {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -21,7 +8,34 @@ body img {
 }
 
 #gallery img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     cursor: pointer;
+}
+
+.image-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    background: linear-gradient(100deg, #eeeeee 30%, #fafafa 50%, #eeeeee 70%);
+    background-size: 200% 100%;
+    animation: image-loading 1.4s ease-in-out infinite;
+}
+
+@keyframes image-loading {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+#map {
+    width: 100%;
+    height: 260px;
 }
 
 #imageModal {
@@ -90,12 +104,57 @@ body img {
 
 .map-placeholder {
     display: grid;
-    min-height: 180px;
     margin-top: 20px;
-    place-items: center;
     border: 2px dashed #aaaaaa;
     color: #666666;
     background: #f4f4f4;
+}
+
+.map-placeholder > span {
+    display: none;
+}
+
+/* Styling för favoritsidan (favourites.php) */
+.favorites-container #gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.favorite-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.favorite-card .no-image {
+    width: 100%;
+    height: 180px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.favorite-card .fav-info {
+    padding: 0.75rem;
+    text-align: center;
+    background: #fafafa;
+    border-top: 1px solid #eee;
 }
 
 @media (max-width: 700px) {

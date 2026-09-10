@@ -1,4 +1,5 @@
 <?php
+// Load the database connection and start the session used for authentication.
 require_once 'db.php';
 session_start();
 
@@ -6,6 +7,7 @@ $error = null;
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	// Read and validate the submitted account details.
 	$username = trim($_POST['username'] ?? '');
 	$password = $_POST['password'] ?? '';
 	$passwordConfirmation = $_POST['password_confirmation'] ?? '';
@@ -19,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	} elseif (strlen($password) < 8) {
 		$error = 'Lösenordet måste vara minst 8 tecken.';
 	} else {
+		// Reject usernames that are already in use.
 		$check = mysqli_prepare($con, 'SELECT id FROM users WHERE username = ? LIMIT 1');
 
 		if (!$check) {
@@ -35,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		}
 
 		if ($error === null) {
+			// Store only a password hash and log in the new user.
 			$hash = password_hash($password, PASSWORD_DEFAULT);
 			$stmt = mysqli_prepare($con, 'INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)');
 			$role = 'user';
@@ -64,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Skapa konto</title>
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body class="auth-page">
 	<main class="auth-shell">
