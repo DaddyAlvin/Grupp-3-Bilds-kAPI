@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 // Fetch enough results to return up to 30 images with coordinates.
 const TARGET_PHOTOS = 30;
-$maxFetches = 3;
+$maxFetches = 20;
 $fetchCount = 0;
 
 // Used when Wikimedia does not provide image owner information.
@@ -12,7 +12,10 @@ const OWNER_UNAVAILABLE = 'Ägare ej tillgänglig';
 
 // Wikimedia recommends an identifiable User-Agent so requests can be linked
 // to the correct application if the developer needs to be contacted.
-const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (https://github.com/alvinsandgren; alvin_sandgren@icloud.com)';
+const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (contact: alvinsandgren)';
+
+// Request up to 50 images per Wikimedia page.
+const PHOTOS_PER_PAGE = 50;
 
 // The API works as a server-side proxy against Wikimedia Commons.
 // JavaScript always receives JSON instead of HTML or a finished image view.
@@ -59,19 +62,16 @@ if ($text === '' || stringLength($text) > 200) {
 // Build the Wikimedia Commons API search parameters.
 // The generator searches through pages in namespace 6, which is the Commons namespace for files.
 $queryParameters = [
-	'action' => 'query',
-	'generator' => 'search',
-	'gsrsearch' => $text,
-	'gsrnamespace' => 6,
-	// Request 50 images per page so enough results with coordinates can be found.
-	'gsrlimit' => 50,
-	'gsrhasposition' => 'image', // Only images with coordinates are relevant for the map.
-	// Get both the imageinfo and coordinates so that mapPhoto can create our object.
-	'prop' => 'imageinfo|coordinates',
-	'iiprop' => 'url|thumbmime|mime',
-	'iiurlwidth' => 600,
-	'format' => 'json',
-	'origin' => '*',
+    'action' => 'query',
+    'generator' => 'search',
+	'gsrsearch' => $text, // Use the original search term.
+    'gsrnamespace' => 6,
+	'gsrlimit' => 50, // Wikimedia's maximum page size for coordinate searches.
+    'prop' => 'imageinfo|coordinates',
+    'iiprop' => 'url',
+    'iiurlwidth' => 600,
+    'format' => 'json',
+    'origin' => '*',
 ];
 
 // A token is present only when the frontend requests a later page.
@@ -122,6 +122,9 @@ do {
 		// Continue with the same base search and add the Wikimedia token.
 		$query = http_build_query(array_merge($queryParameters, $continuation));
 	}
+
+	// Pause briefly to reduce the risk of triggering Wikimedia's 429 rate limit.
+    usleep(300000);
 } while (count($photos) < TARGET_PHOTOS && is_array($continuation) && $fetchCount < $maxFetches);
 
 // Save the token for the next page if Wikimedia has more results.
