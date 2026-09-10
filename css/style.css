@@ -1,42 +1,234 @@
 body {
     background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: urbanist, sans-serif;
+}
+
+main {
+    width: 100%;
+    min-height: 1000px;
+}
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin: 20px 0;
 }
 #gallery {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(5,220px);
+    justify-content: center;
+    gap: 15px;    
+    width: 100%;      
+    padding: 0 60px;
+    box-sizing: border-box;
+    z-index: 0;
+}
+
+header{
+    position: sticky;
+    top: 0px;
+    z-index: 1000;             
+    background-color: #ffffff; 
+    padding: 10px 0px;
+    margin: 0;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+header ul{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+    margin: 0px 30px;
+    padding: 0;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 #gallery img {
     width: 100%;
+    max-width: 220px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     cursor: pointer;
+    border-radius: 12px;
 }
 
-.image-placeholder {
+#gallery img:hover {
+    opacity: 0.6;
+
+}
+
+li {
+    list-style: none;
+}
+
+
+.searchItem {
+    flex: 1;
+    min-width: 0;
+}
+
+.searchBox {
+    display: flex;
+    align-items: center;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 4px;
-    background: linear-gradient(100deg, #eeeeee 30%, #fafafa 50%, #eeeeee 70%);
-    background-size: 200% 100%;
-    animation: image-loading 1.4s ease-in-out infinite;
+    height: 2.5vw;
+    background-color: #ebeaea;
+    border-radius: 12px;
+    border: 1px solid #cac9c9;
+    overflow: hidden;
 }
 
-@keyframes image-loading {
-    from {
-        background-position: 200% 0;
-    }
-
-    to {
-        background-position: -200% 0;
-    }
+#tagInput {
+    flex: 1;
+    height: 100%;
+    min-width: 0;
+    padding: 0 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;    
+    background-color: #ebeaea;
 }
 
-#map {
+#tagInput:hover,
+.searchBox:hover,
+.searchBox:hover .searchButton {
+    background-color: #dad7d7;
+}
+
+.searchButton {
+    display: grid;
+    place-items: center;
+    flex: 0 0 48px; /* flex-grow: 0; flex-shrink: 0; flex-basis: 48px; */
+    height: 100%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+header a {
+    text-decoration: none;
+}
+
+.searchIcon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.user {
+    display: flex;
+    background-color: #1A2C8C;
+    color: #ffffff;
+    height: 2.5vw;
+    width: 6vw;
+    text-align: center;
+    justify-content: center;    
+    align-items: center;
+    border-radius: 12px;
+
+}
+
+.logo:hover img{
+    transform: scale(1.05);
+}
+
+.signUp {
+    display: flex;
+    background-color: #ebeaea;
+    color: #000000;
+    height: 2.5vw;
+    width: 6vw;
+    text-align: center;
+    justify-content: center;    
+    align-items: center;
+    border-radius: 12px;
+}
+.signUp:hover {
+    background-color: #dad7d7;
+}
+.user:hover {
+    background-color: #122066;
+}
+
+button{
+    cursor: pointer;
+    border: none;
+}
+.om {    
+    display: flex;
+    background-color: #ffffff;
+    color: #000000;
+    height: 2.5vw;
+    width: 4vw;
+    text-align: center;
+    justify-content: center;    
+    align-items: center;
+    border-radius: 12px;
+
+}
+
+.företag {    
+    display: flex;
+    background-color: #ffffff;
+    color: #000000;
+    height: 2.5vw;
+    width: 4vw;
+    text-align: center;
+    justify-content: center;    
+    align-items: center;
+    border-radius: 12px;
+}
+
+.nyheter {    
+    display: flex;
+    background-color: #ffffff;
+    color: #000000;
+    height: 2.5vw;
+    width: 4vw;
+    text-align: center;
+    justify-content: center;    
+    align-items: center;
+    border-radius: 12px;
+}
+
+
+.om a {
+    text-decoration: none;
+    color: #000000;
+}
+.om:hover, .nyheter:hover, .företag:hover {
+    background-color: #ebeaea;
+}
+
+header img{
+    height: 2.5vw;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
     width: 100%;
-    height: 260px;
+    align-items: center;
+    gap: 24px;
+    margin-top: 20px;
+    background-color: #1A2C8C;
+    height: 100px;
+
 }
+
+a {
+    color: #ffffff;
+}
+
 
 #imageModal {
     width: min(90vw, 1000px);
@@ -76,7 +268,7 @@ body {
     display: grid;
     min-height: 300px;
     place-items: center;
-    background: #111111;
+    background: #ffffff;
 }
 
 .modal-image-wrap img {
@@ -104,14 +296,12 @@ body {
 
 .map-placeholder {
     display: grid;
+    min-height: 180px;
     margin-top: 20px;
+    place-items: center;
     border: 2px dashed #aaaaaa;
     color: #666666;
     background: #f4f4f4;
-}
-
-.map-placeholder > span {
-    display: none;
 }
 
 /* Styling för favoritsidan (favourites.php) */
