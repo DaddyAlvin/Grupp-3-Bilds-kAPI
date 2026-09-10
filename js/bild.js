@@ -74,16 +74,21 @@ export class bild {
         this.modalLatitude.textContent = photo.latitude;
         this.modalLongitude.textContent = photo.longitude;
         this.modal.showModal();
-        this.map = L.map("map");
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution: "&copy"
-        }).addTo(this.map);
+
+        if (!this.map) {
+            this.map = L.map("map");
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: "&copy"
+            }).addTo(this.map);
+        }
+
         if (this.marker) {
             this.map.removeLayer(this.marker);
         }
         this.marker = L.marker([photo.latitude, photo.longitude]).addTo(this.map);
 
         this.map.setView([photo.latitude, photo.longitude], 13);
+        this.map.invalidateSize();
     }
 
     //easy peasy
