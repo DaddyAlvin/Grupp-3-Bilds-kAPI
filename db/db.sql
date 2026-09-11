@@ -32,6 +32,8 @@ CREATE TABLE `likes` (
   `user_id` int(11) NOT NULL,
   `wikimedia_page_id` varchar(100) NOT NULL,
   `image_url` text DEFAULT NULL,
+  `latitude` decimal(10,7) DEFAULT NULL,
+  `longitude` decimal(10,7) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

@@ -1,8 +1,9 @@
 export class bild {
-    constructor(containerId, tag) {
+    constructor(containerId, tag, apiBase = "api/") {
         // Store the shared page elements used by the gallery, modal, map, and favorite controls.
         this.container = document.getElementById(containerId);
         this.tag = tag;
+        this.apiBase = apiBase;
         this.modal = document.getElementById("imageModal");
         this.modalImage = document.getElementById("modalImage");
         this.modalTitle = document.getElementById("modalTitle");
@@ -119,7 +120,7 @@ export class bild {
         }
 
         try {
-            const res = await fetch(`api/like.php?action=check&image_id=${encodeURIComponent(imageId)}`);
+            const res = await fetch(`${this.apiBase}like.php?action=check&image_id=${encodeURIComponent(imageId)}`);
             if (res.ok) {
                 const data = await res.json();
                 this.setLikeUI(data.liked);
@@ -140,16 +141,24 @@ async toggleLike() {
 
         // Toggle the selected image through the favorites endpoint.
         try {
-            const res = await fetch("api/like.php", {
+            const res = await fetch(`${this.apiBase}like.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     image_id: this.currentPhoto.id,
-                    image_url: this.currentPhoto.image_url
+                    image_url: this.currentPhoto.image_url,
+                    latitude: this.currentPhoto.latitude,
+                    longitude: this.currentPhoto.longitude
                 })
             });
 
-            const data = await res.json();
+            const responseText = await res.text();
+            let data;
+            try {
+                data = JSON.parse(responseText);
+            } catch {
+                throw new Error("Favoriten kunde inte sparas just nu.");
+            }
             if (res.ok) {
                 this.setLikeUI(data.liked);
                 if (this.likeMsg) this.likeMsg.textContent = data.message;
@@ -157,6 +166,7 @@ async toggleLike() {
                 if (this.likeMsg) this.likeMsg.textContent = data.error || "Fel uppstod.";
             }
         } catch (err) {
+            if (this.likeMsg) this.likeMsg.textContent = "Favoriten kunde inte sparas just nu.";
             console.error("Fel vid sparande av favorit:", err);
         }
     }
@@ -186,7 +196,7 @@ async toggleLike() {
 
         // Render the results or a user-facing error message.
         try {
-            const response = await fetch(`api/api.php?${params}`);
+            const response = await fetch(`${this.apiBase}api.php?${params}`);
             const data = await response.json();
 
             if (!response.ok) {

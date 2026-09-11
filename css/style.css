@@ -222,7 +222,9 @@ button{
 }
 
 
-.om a {
+.om,
+.företag,
+.nyheter {
     text-decoration: none;
     color: #000000;
 }
@@ -325,7 +327,19 @@ a {
     background: #f4f4f4;
 }
 
+#map {
+    width: 100%;
+    height: 180px;
+}
+
 /* Styling för favoritsidan (favourites.php) */
+.favorites-container {
+    box-sizing: border-box;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
 .favorites-container #gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
