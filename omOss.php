@@ -6,6 +6,7 @@
     <title>Bildsköning</title>
     <link rel="icon" type="image/x-icon" href="/images/logo.jpg">
     <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/script.js"></script>
 </head>
 <body>
     <header>
@@ -18,8 +19,9 @@
                                 <img src="images/search.png" alt="" class="searchIcon">
                             </button>
                             <input id="tagInput" type="search" placeholder="Sök efter bilder">
-                        </div>
+                        </div> 
                     </li>
+                    <button type="button" id="darkmode">☀️</button>
                 
                     <li class="navLinks">
                         <button class="om" onclick="document.location='omOss.php'">Om oss</button>
