@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				if (mysqli_stmt_execute($stmt)) {
 					$_SESSION['user_id'] = mysqli_insert_id($con);
 					$_SESSION['username'] = $username;
-					header('Location: logged_in.php');
+					header('Location: ../index.php');
 					exit;
 				} else {
 					$error = 'Registreringen misslyckades.';
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<input id="password_confirmation" type="password" name="password_confirmation" minlength="8" required>
 		<button type="submit">Skapa konto</button>
 	</form>
-	<p class="auth-footer">Har du redan ett konto? <a href="index.php">Logga in</a></p>
+	<p class="auth-footer">Har du redan ett konto? <a href="../index.php">Logga in</a></p>
 	</section>
 	</main>
 </body>

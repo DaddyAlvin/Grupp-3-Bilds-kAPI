@@ -64,6 +64,27 @@ header ul{
 
 }
 
+.image-placeholder {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+    border-radius: 4px;
+    background: linear-gradient(100deg, #eeeeee 30%, #fafafa 50%, #eeeeee 70%);
+    background-size: 200% 100%;
+    animation: image-loading 1.4s ease-in-out infinite;
+}
+
+@keyframes image-loading {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
 li {
     list-style: none;
 }

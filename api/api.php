@@ -12,7 +12,7 @@ const OWNER_UNAVAILABLE = 'Ägare ej tillgänglig';
 
 // Wikimedia recommends an identifiable User-Agent so requests can be linked
 // to the correct application if the developer needs to be contacted.
-const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (contact: alvinsandgren)';
+const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (contact: alvin_sandgren@icloud.com)';
 
 // Request up to 50 images per Wikimedia page.
 const PHOTOS_PER_PAGE = 50;
