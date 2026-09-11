@@ -24,6 +24,7 @@ $username = $_SESSION['username'] ?? '';
     <header class="top-bar">
         <form id="findUserSearch">
             <ul>
+                
                 <li class="logo"><a href="/"><img src="images/logo.jpg" alt="Logo"></a></li>
                 <li class="searchItem">
                     <div class="searchBox">
@@ -33,6 +34,7 @@ $username = $_SESSION['username'] ?? '';
                         <input id="tagInput" type="search" placeholder="Sök efter bilder" required>
                     </div>
                 </li>
+                <button type="button" id="darkmode">☀️</button>
                 <li class="navLinks">
                     <a href="omOss.php" class="om">Om oss</a>
                     <a href="foretag.php" class="företag">Företag</a>
@@ -51,7 +53,6 @@ $username = $_SESSION['username'] ?? '';
     </header>
 
     <main>
-        <h1>Klicka på en bild för att se var någonstans på jorden som den tagits</h1>
         <div id="gallery"></div>
     </main>
 
