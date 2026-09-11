@@ -197,7 +197,7 @@ button{
 
 }
 
-.företag {    
+.kontakt {    
     display: flex;
     background-color: #ffffff;
     color: #000000;
@@ -223,12 +223,12 @@ button{
 
 
 .om,
-.företag,
+.kontakt,
 .nyheter {
     text-decoration: none;
     color: #000000;
 }
-.om:hover, .nyheter:hover, .företag:hover {
+.om:hover, .nyheter:hover, .kontakt:hover {
     background-color: #ebeaea;
 }
 

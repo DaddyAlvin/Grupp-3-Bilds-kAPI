@@ -46,7 +46,7 @@ if ($stmt) {
             <li class="logo"><a href="../index.php"><img src="../images/logo.jpg" alt="Logo"></a></li>
             <li class="navLinks">
                 <a href="../omOss.php" class="om">Om oss</a>
-                <a href="../foretag.php" class="företag">Företag</a>
+                <a href="../kontakt.php" class="kontakt">Kontakt</a>
                 <a href="../nyheter.php" class="nyheter">Nyheter</a>
             </li>
             <li><span class="user">Inloggad som: <?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span></li>

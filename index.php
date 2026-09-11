@@ -35,7 +35,7 @@ $username = $_SESSION['username'] ?? '';
                 </li>
                 <li class="navLinks">
                     <a href="omOss.php" class="om">Om oss</a>
-                    <a href="foretag.php" class="företag">Företag</a>
+                    <a href="kontakt.php" class="kontakt">Kontakt</a>
                     <a href="nyheter.php" class="nyheter">Nyheter</a>
                 </li>
                 <?php if ($isLoggedIn): ?>
