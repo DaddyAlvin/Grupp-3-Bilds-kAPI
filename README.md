@@ -25,3 +25,6 @@ Edwin:
 
 fredag 11/09
 Aleksander: gjorde css på login/sign up sidan, mobilanpassade startsidan, 
+
+###
+Alvin: Idag har jag fortsatt bugfixa och implementera element från de andra, en första prototyp är uppe på domänet och databas och det är kopplat för det.
