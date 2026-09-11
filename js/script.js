@@ -8,7 +8,6 @@ const darkModeButton = document.getElementById("darkmode");
 
 let gallery;
 
-<<<<<<< HEAD
 function setDarkMode(enabled) {
     document.body.classList.toggle("dark-mode", enabled);
     darkModeButton.textContent = enabled ? "☀️" : "🌙";
@@ -16,8 +15,6 @@ function setDarkMode(enabled) {
     darkModeButton.setAttribute("aria-pressed", String(enabled));
     localStorage.setItem("darkMode", String(enabled));
 }
-=======
->>>>>>> e17f20dbc0a254c09319c11052a05dbb56f50caf
 
 function getRandomTag(tagList) {
     const randomIndex = Math.floor(Math.random() * tagList.length);

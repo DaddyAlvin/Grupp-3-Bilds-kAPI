@@ -2,6 +2,25 @@ import { bild } from "./bild.js";
 
 const gallery = document.getElementById("gallery");
 const modalGallery = new bild("gallery", "favoriter", "../api/");
+const darkModeButton = document.getElementById("darkmode");
+
+function setDarkMode(enabled) {
+    document.body.classList.toggle("dark-mode", enabled);
+    if (darkModeButton) {
+        darkModeButton.textContent = enabled ? "☀️" : "🌙";
+        darkModeButton.setAttribute("aria-label", enabled ? "Byt till ljust läge" : "Byt till mörkt läge");
+        darkModeButton.setAttribute("aria-pressed", String(enabled));
+    }
+    localStorage.setItem("darkMode", String(enabled));
+}
+
+if (darkModeButton) {
+    darkModeButton.addEventListener("click", () => {
+        setDarkMode(!document.body.classList.contains("dark-mode"));
+    });
+}
+
+setDarkMode(localStorage.getItem("darkMode") === "true");
 
 for (const image of gallery.querySelectorAll("img[data-page-id]")) {
     const openFavorite = async () => {

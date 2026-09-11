@@ -88,7 +88,6 @@ export class bild {
     async openModal(photo) {
         // Populate the modal with the selected image and its location data.
         this.currentPhoto = photo;
-    openModal(photo) {
         this.modalImage.src = photo.image_url;
         this.modalImage.alt = photo.title || `Bild med sökordet ${this.tag}`;
         this.modalTitle.textContent = photo.title || "Bilddetaljer";
@@ -104,11 +103,6 @@ export class bild {
         if (!this.map) {
             this.map = L.map("map");
             L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: "&copy; OpenStreetMap contributors"
-        if (!this.map) {
-            this.map = L.map("map");
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: "&copy"
             }).addTo(this.map);
         }
 
@@ -138,7 +132,7 @@ export class bild {
         }
     }
 
-async toggleLike() {
+    async toggleLike() {
         // Require authentication before sending a favorite request.
         if (!this.isLoggedIn) {
             if (this.likeMsg) this.likeMsg.textContent = "Logga in för att spara favoriter.";
@@ -191,9 +185,6 @@ async toggleLike() {
             this.likeText.textContent = "Spara som favorit";
             this.likeBtn.classList.remove("active");
         }
-
-        this.map.setView([photo.latitude, photo.longitude], 13);
-        this.map.invalidateSize();
     }
 
     async load() {
