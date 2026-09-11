@@ -33,6 +33,7 @@ $username = $_SESSION['username'] ?? '';
                         <input id="tagInput" type="search" placeholder="Sök efter bilder" required>
                     </div>
                 </li>
+                <button type="button" id="darkmode">☀️</button>
                 <li class="navLinks">
                     <a href="omOss.php" class="om">Om oss</a>
                     <a href="kontakt.php" class="kontakt">Kontakt</a>

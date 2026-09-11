@@ -1,8 +1,38 @@
+:root {
+    color-scheme: light;
+    --page-background: #f7f8fc;
+    --surface: #ffffff;
+    --surface-muted: #eef0f5;
+    --surface-hover: #e3e6ed;
+    --text: #172033;
+    --text-muted: #687286;
+    --border: #d9dde7;
+    --accent: #1a2c8c;
+    --accent-hover: #122066;
+    --shadow: 0 12px 30px rgb(23 32 51 / 10%);
+}
+
 body {
-    background-color: #ffffff;
+    background-color: var(--page-background);
+    color: var(--text);
     margin: 0;
     padding: 0;
     font-family: urbanist, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    color-scheme: dark;
+    --page-background: #101522;
+    --surface: #181f2e;
+    --surface-muted: #222b3d;
+    --surface-hover: #2c374d;
+    --text: #edf1f8;
+    --text-muted: #aeb8ca;
+    --border: #354157;
+    --accent: #8298ff;
+    --accent-hover: #9eafff;
+    --shadow: 0 16px 34px rgb(0 0 0 / 24%);
 }
 
 main {
@@ -25,14 +55,34 @@ h1 {
     z-index: 0;
 }
 
+#darkmode {
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background-color: var(--surface-muted);
+    color: var(--text);
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+#darkmode:hover {
+    background-color: var(--surface-hover);
+    transform: translateY(-1px);
+}
+
 header{
     position: sticky;
     top: 0px;
     z-index: 1000;             
-    background-color: #ffffff; 
+    background-color: var(--surface); 
     padding: 10px 0px;
     margin: 0;
-    border-bottom: 1px solid #d7d7d7;
+    border-bottom: 1px solid var(--border);
 }
 
 header ul{
@@ -70,7 +120,7 @@ header ul{
     aspect-ratio: 1 / 1;
     justify-self: center;
     border-radius: 4px;
-    background: linear-gradient(100deg, #eeeeee 30%, #fafafa 50%, #eeeeee 70%);
+    background: linear-gradient(100deg, var(--surface-muted) 30%, var(--surface-hover) 50%, var(--surface-muted) 70%);
     background-size: 200% 100%;
     animation: image-loading 1.4s ease-in-out infinite;
 }
@@ -100,9 +150,9 @@ li {
     align-items: center;
     width: 100%;
     height: 2.5vw;
-    background-color: #ebeaea;
+    background-color: var(--surface-muted);
     border-radius: 12px;
-    border: 1px solid #cac9c9;
+    border: 1px solid var(--border);
     overflow: hidden;
 }
 
@@ -114,13 +164,14 @@ li {
     border: none;
     outline: none;
     font-size: 16px;    
-    background-color: #ebeaea;
+    background-color: transparent;
+    color: var(--text);
 }
 
 #tagInput:hover,
 .searchBox:hover,
 .searchBox:hover .searchButton {
-    background-color: #dad7d7;
+    background-color: var(--surface-hover);
 }
 
 .searchButton {
@@ -147,7 +198,7 @@ header a {
 
 .user {
     display: flex;
-    background-color: #1A2C8C;
+    background-color: var(--accent);
     color: #ffffff;
     height: 2.5vw;
     width: 6vw;
@@ -164,8 +215,8 @@ header a {
 
 .signUp {
     display: flex;
-    background-color: #ebeaea;
-    color: #000000;
+    background-color: var(--surface-muted);
+    color: var(--text);
     height: 2.5vw;
     width: 6vw;
     text-align: center;
@@ -174,10 +225,10 @@ header a {
     border-radius: 12px;
 }
 .signUp:hover {
-    background-color: #dad7d7;
+    background-color: var(--surface-hover);
 }
 .user:hover {
-    background-color: #122066;
+    background-color: var(--accent-hover);
 }
 
 button{
@@ -186,8 +237,8 @@ button{
 }
 .om {    
     display: flex;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: transparent;
+    color: var(--text);
     height: 2.5vw;
     width: 4vw;
     text-align: center;
@@ -199,8 +250,8 @@ button{
 
 .kontakt {    
     display: flex;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: transparent;
+    color: var(--text);
     height: 2.5vw;
     width: 4vw;
     text-align: center;
@@ -211,8 +262,8 @@ button{
 
 .nyheter {    
     display: flex;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: transparent;
+    color: var(--text);
     height: 2.5vw;
     width: 4vw;
     text-align: center;
@@ -226,10 +277,10 @@ button{
 .kontakt,
 .nyheter {
     text-decoration: none;
-    color: #000000;
+    color: var(--text);
 }
 .om:hover, .nyheter:hover, .kontakt:hover {
-    background-color: #ebeaea;
+    background-color: var(--surface-muted);
 }
 
 header img{
@@ -243,13 +294,17 @@ footer {
     align-items: center;
     gap: 24px;
     margin-top: 20px;
-    background-color: #1A2C8C;
+    background-color: var(--accent);
     height: 100px;
 
 }
 
-a {
+footer a {
     color: #ffffff;
+}
+
+a {
+    color: var(--text);
 }
 
 
@@ -272,7 +327,7 @@ a {
     gap: 24px;
     padding: 24px;
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--surface);
 }
 
 .modal-close {
@@ -291,7 +346,7 @@ a {
     display: grid;
     min-height: 300px;
     place-items: center;
-    background: #ffffff;
+    background: var(--surface);
 }
 
 .modal-image-wrap img {
@@ -313,7 +368,7 @@ a {
     display: grid;
     gap: 8px;
     padding: 16px;
-    border: 1px solid #d7d7d7;
+    border: 1px solid var(--border);
     border-radius: 4px;
 }
 
@@ -322,9 +377,9 @@ a {
     min-height: 180px;
     margin-top: 20px;
     place-items: center;
-    border: 2px dashed #aaaaaa;
-    color: #666666;
-    background: #f4f4f4;
+    border: 2px dashed var(--border);
+    color: var(--text-muted);
+    background: var(--surface-muted);
 }
 
 #map {
@@ -348,13 +403,13 @@ a {
 }
 
 .favorite-card {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
-    background: #ffffff;
+    background: var(--surface);
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
 }
 
 .favorite-card img {
@@ -367,19 +422,19 @@ a {
 .favorite-card .no-image {
     width: 100%;
     height: 180px;
-    background: #eee;
+    background: var(--surface-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #666;
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
 .favorite-card .fav-info {
     padding: 0.75rem;
     text-align: center;
-    background: #fafafa;
-    border-top: 1px solid #eee;
+    background: var(--surface-muted);
+    border-top: 1px solid var(--border);
 }
 
 @media (max-width: 700px) {
