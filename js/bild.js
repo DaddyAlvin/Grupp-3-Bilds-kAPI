@@ -9,6 +9,8 @@ export class bild {
         this.modalTitle = document.getElementById("modalTitle");
         this.modalLatitude = document.getElementById("modalLatitude");
         this.modalLongitude = document.getElementById("modalLongitude");
+        this.map = null;
+        this.marker = null;
 
         this.likeBtn = document.getElementById("likeBtn");
         this.likeIcon = document.getElementById("likeIcon");
@@ -78,6 +80,7 @@ export class bild {
         for (let index = 0; index < 30; index += 1) {
             const placeholder = document.createElement("div");
             placeholder.className = "image-placeholder";
+            placeholder.setAttribute("aria-hidden", "true");
             this.container.appendChild(placeholder);
         }
     }
@@ -85,6 +88,7 @@ export class bild {
     async openModal(photo) {
         // Populate the modal with the selected image and its location data.
         this.currentPhoto = photo;
+    openModal(photo) {
         this.modalImage.src = photo.image_url;
         this.modalImage.alt = photo.title || `Bild med sökordet ${this.tag}`;
         this.modalTitle.textContent = photo.title || "Bilddetaljer";
@@ -101,6 +105,10 @@ export class bild {
             this.map = L.map("map");
             L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                 attribution: "&copy; OpenStreetMap contributors"
+        if (!this.map) {
+            this.map = L.map("map");
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: "&copy"
             }).addTo(this.map);
         }
 
@@ -183,6 +191,9 @@ async toggleLike() {
             this.likeText.textContent = "Spara som favorit";
             this.likeBtn.classList.remove("active");
         }
+
+        this.map.setView([photo.latitude, photo.longitude], 13);
+        this.map.invalidateSize();
     }
 
     async load() {
