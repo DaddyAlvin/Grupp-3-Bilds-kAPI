@@ -18,7 +18,10 @@ Avin: Idag har jag förbättrat prestandan på sidan och löst vissa buggar, sen
 
 ###
 
-Aleksander:
+Aleksander: justera färgschemat, anpassa undersidorna
 
 ###
 Edwin:
+
+fredag 11/09
+Aleksander: gjorde css på login/sign up sidan, mobilanpassade startsidan, 
