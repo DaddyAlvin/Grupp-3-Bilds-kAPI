@@ -4,6 +4,7 @@ const searchForm = document.getElementById("findUserSearch");
 const tagInput = document.getElementById("tagInput");
 const tags = JSON.parse(localStorage.getItem("tags") || "[]");
 const frontPageTags = ["cats", "dogs", "nature", "technology", "architecture", "food", "travel", "history"];
+let gallery;
 
 
 function getRandomTag(tagList) {
@@ -13,7 +14,9 @@ function getRandomTag(tagList) {
 
 function loadGallery(tag) {
     tagInput.value = tag;
-    new bild("gallery", tag).load();
+    gallery ??= new bild("gallery", tag);
+    gallery.tag = tag;
+    gallery.load();
 }
 
 searchForm.addEventListener("submit", (event) => {
