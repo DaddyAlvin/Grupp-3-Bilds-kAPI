@@ -42,6 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body class="auth-page">
+    <header>
+        <div class="logo"><a href="/"><img src="../images/logo.jpg" alt="Logo"></a></div>
+    </header>
+
     <main class="auth-shell auth-panel">
         <h1>Logga in</h1>
         <?php if ($error): ?>

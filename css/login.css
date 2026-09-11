@@ -33,17 +33,20 @@ label {
 }
 
 input {
+    box-sizing: border-box;
     width: 100%;
     padding: 10px 12px;
     border: 1px solid #d1d1d1;
     border-radius: 12px;
     font-size: 16px;
+
 }
 
 button {
+    width: 100%;
     margin-top: 12px;
     padding: 12px;
-    background: #000000;
+    background: #1A2C8C;
     color: #ffffff;
     border: none;
     border-radius: 12px;
@@ -59,4 +62,8 @@ button {
 
 .auth-footer a {
     color: #000000;
+}
+
+.logo:hover img{
+    transform: scale(1.05);
 }
