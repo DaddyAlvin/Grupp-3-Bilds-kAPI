@@ -28,3 +28,6 @@ Aleksander: gjorde css på login/sign up sidan, mobilanpassade startsidan,
 
 ###
 Alvin: Idag har jag fortsatt bugfixa och implementera element från de andra, en första prototyp är uppe på domänet och databas och det är kopplat för det.
+
+måndag 14/09:
+Aleksander: vidare utvecklade mobilanpassning, gjorde om en del av startsidan, lade till loggan(som en hemknapp) i log in sidan
