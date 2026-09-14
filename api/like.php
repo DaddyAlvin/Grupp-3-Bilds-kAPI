@@ -1,40 +1,55 @@
 <?php
-// Enable strict typing and load the shared database connection.
+// Enable strict typing so PHP performs stricter type handling throughout this
+// endpoint. The shared database bootstrap also creates the mysqli connection
+// used by all queries below, keeping connection configuration in one place.
 declare(strict_types=1);
 require_once __DIR__ . '/../db/db.php';
 session_start();
 mysqli_report(MYSQLI_REPORT_OFF);
 
-// Every response from this endpoint is JSON.
+// This endpoint is consumed by JavaScript clients, so every successful response
+// and every error response is returned as UTF-8 encoded JSON. Setting the
+// header before output prevents clients from interpreting the response as HTML.
 header('Content-Type: application/json; charset=utf-8');
 
-// Favorites belong to authenticated users and must never be shared between accounts.
+// Favorites are private user data. Reject the request before performing any
+// database operation when the session does not contain a valid authenticated
+// user identifier, ensuring one account can never read or modify another
+// account's saved images.
 if (empty($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode(['error' => 'Du måste vara inloggad för att hantera favoriter.']);
     exit;
 }
 
-// Read the request body once so both query parameters and JSON input can be supported.
+// Read the request body once because php://input is a stream-like request
+// source. Decoding it into an associative array lets POST clients send JSON,
+// while the query-string fallbacks below preserve support for URL parameters.
 $userId = (int)$_SESSION['user_id'];
 $rawInput = file_get_contents('php://input');
 $input = json_decode($rawInput, true) ?? [];
 
-// GET requests check a favorite; POST requests toggle it.
+// A GET request, or an explicit "check" action, only reports the current
+// favorite state. A POST request changes that state by removing an existing
+// favorite or creating one when no matching record exists.
 $action = $_GET['action'] ?? $input['action'] ?? 'toggle';
 $imageId = trim((string)($_GET['image_id'] ?? $input['image_id'] ?? ''));
 $imageUrl = trim((string)($input['image_url'] ?? ''));
 $latitude = (float)($input['latitude'] ?? 0);
 $longitude = (float)($input['longitude'] ?? 0);
 
-// An image identifier is required for both checking and changing a favorite.
+// The Wikimedia page identifier is the stable key used to associate a saved
+// image with its owner. Without it, neither a lookup nor a toggle can be
+// performed safely, so the request is rejected as invalid input.
 if ($imageId === '') {
     http_response_code(400);
     echo json_encode(['error' => 'Bild-ID saknas.']);
     exit;
 }
 
-// Return whether the current user has already saved this image.
+// Check only the authenticated user's record for this image. The prepared
+// statement prevents user-supplied values from being interpreted as SQL, and
+// LIMIT 1 avoids unnecessary work because the response only needs a boolean.
 if ($_SERVER['REQUEST_METHOD'] === 'GET' || $action === 'check') {
     $stmt = mysqli_prepare($con, 'SELECT id FROM likes WHERE user_id = ? AND wikimedia_page_id = ? LIMIT 1');
     if (!$stmt) {
@@ -58,7 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' || $action === 'check') {
     exit;
 }
 
-// Toggle the favorite for the current user.
+// Toggle the favorite belonging to the authenticated user. The record is
+// looked up first so the endpoint can choose between deleting the existing
+// favorite and inserting a new one while keeping the response state explicit.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = mysqli_prepare($con, 'SELECT id FROM likes WHERE user_id = ? AND wikimedia_page_id = ? LIMIT 1');
     if (!$stmt) {
@@ -78,6 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $existing = mysqli_fetch_assoc($result);
     mysqli_stmt_close($stmt);
 
+    // An existing row means the image is already saved, so remove only that
+    // row. Deleting by its primary key keeps the operation scoped to the
+    // exact record found for the current user and image identifier.
     if ($existing) {
         $del = mysqli_prepare($con, 'DELETE FROM likes WHERE id = ?');
         if (!$del) {
@@ -97,6 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo json_encode(['liked' => false, 'message' => 'Borttagen från favoriter']);
     } else {
+        // No favorite exists yet, so store the image metadata together with
+        // the authenticated owner. The URL and coordinates are retained to
+        // allow the client to display the saved image and its location later.
         $ins = mysqli_prepare($con, 'INSERT INTO likes (user_id, wikimedia_page_id, image_url, latitude, longitude) VALUES (?, ?, ?, ?, ?)');
         if (!$ins) {
             error_log('Favorite insert prepare failed: ' . mysqli_error($con));

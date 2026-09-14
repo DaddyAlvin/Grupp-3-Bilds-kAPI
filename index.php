@@ -38,7 +38,6 @@ $username = $_SESSION['username'] ?? '';
                 <li class="navLinks">
                     <a href="omOss.php" class="om">Om oss</a>
                     <a href="kontakt.php" class="kontakt">Kontakt</a>
-                    <a href="nyheter.php" class="nyheter">Nyheter</a>
                 </li>
                 <?php if ($isLoggedIn): ?>
                     <li><span class="user">Inloggad som: <?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span></li>

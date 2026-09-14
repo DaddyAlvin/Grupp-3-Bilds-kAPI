@@ -4,6 +4,7 @@ const gallery = document.getElementById("gallery");
 const modalGallery = new bild("gallery", "favoriter", "../api/");
 const darkModeButton = document.getElementById("darkmode");
 
+// Apply the selected theme and keep the toggle button accessible.
 function setDarkMode(enabled) {
     document.body.classList.toggle("dark-mode", enabled);
     if (darkModeButton) {
@@ -15,17 +16,22 @@ function setDarkMode(enabled) {
 }
 
 if (darkModeButton) {
+    // Toggle dark mode when the user activates the theme button.
     darkModeButton.addEventListener("click", () => {
         setDarkMode(!document.body.classList.contains("dark-mode"));
     });
 }
 
+// Restore the user's saved theme preference when the page loads.
 setDarkMode(localStorage.getItem("darkMode") === "true");
 
+// Add keyboard and pointer interaction to each favourite image.
 for (const image of gallery.querySelectorAll("img[data-page-id]")) {
     const openFavorite = async () => {
+        // Indicate that the image is being opened while the modal loads.
         image.setAttribute("aria-busy", "true");
 
+        // Build the photo object expected by the modal gallery.
         const photo = {
             id: image.dataset.pageId,
             image_url: image.src,
@@ -35,10 +41,12 @@ for (const image of gallery.querySelectorAll("img[data-page-id]")) {
         };
 
         await modalGallery.openModal(photo);
+        // Remove the loading state after the modal has opened.
         image.removeAttribute("aria-busy");
     };
 
     image.addEventListener("click", openFavorite);
+    // Support opening favourites with Enter or Space for keyboard users.
     image.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();

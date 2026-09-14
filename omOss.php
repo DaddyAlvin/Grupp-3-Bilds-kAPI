@@ -23,8 +23,7 @@
                 
                     <li class="navLinks">
                         <button class="om" onclick="document.location='omOss.php'">Om oss</button>
-                        <button class="företag" onclick="document.location='foretag.php'">Företag</button>
-                        <button class="nyheter" onclick="document.location='nyheter.php'">Nyheter</button>
+                        <button class="kontakt" onclick="document.location='kontakt.php'">Kontakt</button>
                     </li>
                     <button class="user" onclick="document.location='login.php'">Logga in</button>
                     <button class="signUp" onclick="document.location='signup.php'">Skapa konto</button>
