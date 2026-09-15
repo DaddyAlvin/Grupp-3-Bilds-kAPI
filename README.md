@@ -34,3 +34,9 @@ Aleksander: vidare utvecklade mobilanpassning, gjorde om en del av startsidan, l
 
 ###
 Alvin: utvecklad säkerhet, kommentering av koden, effektivisering/bugfixning av logiken
+
+15/09
+Alvin: Ännu bättre säkerhet med begränsning av ip, downloadfunktion, mer finslip
+
+###
+Aleksander: 
