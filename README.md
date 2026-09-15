@@ -31,3 +31,6 @@ Alvin: Idag har jag fortsatt bugfixa och implementera element från de andra, en
 
 måndag 14/09:
 Aleksander: vidare utvecklade mobilanpassning, gjorde om en del av startsidan, lade till loggan(som en hemknapp) i log in sidan
+
+###
+Alvin: utvecklad säkerhet, kommentering av koden, effektivisering/bugfixning av logiken
