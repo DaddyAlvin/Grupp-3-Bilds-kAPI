@@ -39,4 +39,4 @@ Alvin: utvecklad säkerhet, kommentering av koden, effektivisering/bugfixning av
 Alvin: Ännu bättre säkerhet med begränsning av ip, downloadfunktion, mer finslip
 
 ###
-Aleksander: 
+Aleksander: gjorde om startsidan, införde en dropdown meny för favoriter och log out, hittade fram nya ikoner
