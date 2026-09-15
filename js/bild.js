@@ -16,6 +16,7 @@ export class bild {
         this.likeIcon = document.getElementById("likeIcon");
         this.likeText = document.getElementById("likeText");
         this.likeMsg = document.getElementById("likeMsg");
+        this.downloadBtn = document.getElementById("downloadBtn");
 
         this.currentPhoto = null;
         this.map = null;
@@ -41,6 +42,11 @@ export class bild {
         if (this.likeBtn && !this.likeBtn.dataset.bound) {
             this.likeBtn.addEventListener("click", () => this.toggleLike());
             this.likeBtn.dataset.bound = "true";
+        }
+
+        if (this.downloadBtn && !this.downloadBtn.dataset.bound) {
+            this.downloadBtn.addEventListener("click", (event) => this.downloadModalImage(event));
+            this.downloadBtn.dataset.bound = "true";
         }
     }
     
@@ -89,6 +95,7 @@ export class bild {
         // Populate the modal with the selected image and its location data.
         this.currentPhoto = photo;
         this.modalImage.src = photo.image_url;
+        if (this.downloadBtn) this.downloadBtn.href = photo.image_url || "#";
         this.modalImage.alt = photo.title || `Bild med sökordet ${this.tag}`;
         this.modalTitle.textContent = photo.title || "Bilddetaljer";
         this.modalLatitude.textContent = photo.latitude;
@@ -170,6 +177,35 @@ export class bild {
         } catch (err) {
             if (this.likeMsg) this.likeMsg.textContent = "Favoriten kunde inte sparas just nu.";
             console.error("Fel vid sparande av favorit:", err);
+        }
+    }
+
+    async downloadModalImage(event) {
+        // Prevent the browser from navigating away when the user triggers the download action.
+        event.preventDefault();
+
+        // Use the currently displayed modal image URL, or fall back to the download button link.
+        const imageUrl = this.modalImage?.src || this.downloadBtn?.href;
+        if (!imageUrl || imageUrl === `${window.location.href}#`) return;
+
+        try {
+            // Fetch the image as a blob so it can be saved as a file by the browser.
+            const response = await fetch(imageUrl);
+            if (!response.ok) throw new Error("Bild kunde inte hämtas.");
+
+            // Create a temporary object URL and trigger a browser download for the image.
+            const blobUrl = URL.createObjectURL(await response.blob());
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            link.download = imageUrl.split("/").pop().split("?")[0] || "bild.jpg";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            // If the download fails, open the original image in a new tab as a fallback.
+            console.error("Kunde inte ladda ner bilden:", error);
+            window.open(imageUrl, "_blank", "noopener");
         }
     }
 

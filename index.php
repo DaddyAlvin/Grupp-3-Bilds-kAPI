@@ -17,7 +17,6 @@ $username = $_SESSION['username'] ?? '';
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 </head>
@@ -72,12 +71,17 @@ $username = $_SESSION['username'] ?? '';
                     <span id="likeMsg" class="like-msg"></span>
                 </div>
 
+                <div class="download-container">
+                    <a id="downloadBtn" href="#" class="download-button">
+                        Ladda ner
+                    </a>
+                </div>
+
                 <div class="coordinates" aria-label="Bildens koordinater">
                     <span>Latitud: <strong id="modalLatitude"></strong></span>
                     <span>Longitud: <strong id="modalLongitude"></strong></span>
                 </div>
                 <div class="map-placeholder" aria-label="Plats för karta">
-                    <span>Karta kommer senare</span>
                     <div id="map"></div>
                 </div>
             </div>
