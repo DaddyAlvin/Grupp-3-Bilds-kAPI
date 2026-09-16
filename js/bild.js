@@ -232,6 +232,10 @@ export class bild {
         // Render the results or a user-facing error message.
         try {
             const response = await fetch(`${this.apiBase}api.php?${params}`);
+            if (response.status === 401) {
+                window.location.href = "/login/login.php";
+                return;
+            }
             const data = await response.json();
 
             if (!response.ok) {
