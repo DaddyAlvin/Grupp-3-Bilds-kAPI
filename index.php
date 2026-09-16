@@ -37,10 +37,9 @@ $username = $_SESSION['username'] ?? '';
                 <li class="navLinks">
                     <a href="omOss.php" class="om">Om oss</a>
                     <a href="kontakt.php" class="kontakt">Kontakt</a>
-                    <a href="nyheter.php" class="nyheter">Nyheter</a>
                 </li>
                 <?php if ($isLoggedIn): ?>
-                    <li><span class="user">Inloggad som: <?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span></li>
+                    <li><span class="user"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span></li>
                     <li><a href="db/favourites.php" class="signUp">Mina favoriter</a></li>
                     <li><a href="login/logout.php" class="user">Logga ut</a></li>
                 <?php else: ?>
@@ -70,6 +69,12 @@ $username = $_SESSION['username'] ?? '';
                         <span id="likeIcon">🤍</span> <span id="likeText">Spara som favorit</span>
                     </button>
                     <span id="likeMsg" class="like-msg"></span>
+                </div>
+
+                <div class="download-container">
+                    <a id="downloadBtn" href="#" class="download-button">
+                        Ladda ner
+                    </a>
                 </div>
 
                 <div class="coordinates" aria-label="Bildens koordinater">

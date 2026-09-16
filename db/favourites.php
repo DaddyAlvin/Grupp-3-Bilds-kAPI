@@ -44,6 +44,7 @@ if ($stmt) {
     <header class="top-bar">
         <ul>
             <li class="logo"><a href="../index.php"><img src="../images/logo.jpg" alt="Logo"></a></li>
+                <button type="button" id="darkmode">☀️</button>
             <li class="navLinks">
                 <a href="../omOss.php" class="om">Om oss</a>
                 <a href="../kontakt.php" class="kontakt">Kontakt</a>
