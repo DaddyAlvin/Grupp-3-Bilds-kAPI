@@ -3,8 +3,17 @@
 // endpoint. The shared database bootstrap also creates the mysqli connection
 // used by all queries below, keeping connection configuration in one place.
 declare(strict_types=1);
-require_once __DIR__ . '/../db/db.php';
+
 session_start();
+if (empty($_SESSION['user_id']) || ($_SESSION['role'] ?? null) !== 'user') {
+    http_response_code(401);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['error' => 'Här har du inte att göra.']);
+    exit;
+}
+
+require_once __DIR__ . '/../db/db.php';
+
 mysqli_report(MYSQLI_REPORT_OFF);
 
 // This endpoint is consumed by JavaScript clients, so every successful response
