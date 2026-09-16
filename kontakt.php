@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Om oss</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo.jpg">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/script.js"></script>
 </head>
 <body>
-    
+    <header>
+            <form id="findUserSearch">
+                <ul>
+                    <li class= "logo"><a href="/"><img src="images/logo.jpg" alt="Logo"></a></li>            
+                    <li class="searchItem">
+                        <div class="searchBox">
+                            <button type="submit" class="searchButton" aria-label="Search">
+                                <img src="images/search.png" alt="" class="searchIcon">
+                            </button>
+                            <input id="tagInput" type="search" placeholder="Sök efter bilder">
+                        </div>
+                    </li>
+                    <button type="button" id="darkmode">☀️</button>
+                
+                    <li class="navLinks">
+                        <button class="om" onclick="document.location='omOss.php'">Om oss</button>
+                        <button class="kontakt" onclick="document.location='kontakt.php'">Kontakt</button>
+                    </li>
+                    <button class="user" onclick="document.location='login.php'">Logga in</button>
+                    <button class="signUp" onclick="document.location='signup.php'">Skapa konto</button>
+                </ul>
+            </form>
+        </header>
+</body>
+    <main>
+        <h1>0705477528 - 50 kr swish TACK 😍</h1>
+        <p>Kontakta oss gärna via PayPal eller swish.</p>
+        <p>GMAIL: edwin.lund@elev.ga.ntig.se</p>
+        <p>Om du har frågor, lägg en swish till Edwin!.</p>
+        <p>Sen finns de andra medlämmar men ja kan inte deras telefonnummer eller gmail!! TYVVÄRR</p>
+
+    </main>
 </body>
 </html>
