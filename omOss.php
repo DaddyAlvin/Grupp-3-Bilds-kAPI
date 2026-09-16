@@ -1,3 +1,9 @@
+<?php
+session_start();
+$isLoggedIn = !empty($_SESSION['user_id']);
+$username = $_SESSION['username'] ?? '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +39,8 @@
 
     <main>
         
-        <h1>Vällkommen till världens bästa bildsökningssida!</h1>
+        <h1>Den här bildsöknings sidan är gjort av 3st te4 studenter</h1>
+        <h1>Vi är Aleksander Sudol, Edwin Lund och Alvin Sandgren</h1>
     </main>
     <footer>
         <a href="omOss.php">Om oss</a>

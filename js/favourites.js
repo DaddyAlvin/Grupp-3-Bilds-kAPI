@@ -3,10 +3,14 @@ import { bild } from "./bild.js";
 const gallery = document.getElementById("gallery");
 const modalGallery = new bild("gallery", "favoriter", "../api/");
 const darkModeButton = document.getElementById("darkmode");
+const logoImage = document.querySelector(".logo img");
 
 // Apply the selected theme and keep the toggle button accessible.
 function setDarkMode(enabled) {
     document.body.classList.toggle("dark-mode", enabled);
+    if (logoImage) {
+        logoImage.src = enabled ? "../images/darkModeLogo.png" : "../images/logo.jpg";
+    }
     if (darkModeButton) {
         darkModeButton.textContent = enabled ? "☀️" : "🌙";
         darkModeButton.setAttribute("aria-label", enabled ? "Byt till ljust läge" : "Byt till mörkt läge");

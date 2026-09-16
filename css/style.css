@@ -1,19 +1,19 @@
 :root {
     color-scheme: light;
-    --page-background: #f7f8fc;
     --surface: #ffffff;
-    --surface-muted: #eef0f5;
-    --surface-hover: #e3e6ed;
-    --text: #172033;
+    --surface-muted: #ebeaea;
+    --surface-hover: #e0dbdb;
+    --text: #000000;
     --text-muted: #687286;
     --border: #d9dde7;
     --accent: #1a2c8c;
     --accent-hover: #122066;
     --shadow: 0 12px 30px rgb(23 32 51 / 10%);
+
 }
 
 body {
-    background-color: var(--page-background);
+    background-color: var(--surface);
     color: var(--text);
     margin: 0;
     padding: 0;
@@ -27,13 +27,15 @@ body.dark-mode {
     --surface: #181f2e;
     --surface-muted: #222b3d;
     --surface-hover: #2c374d;
-    --text: #edf1f8;
+    --text: #ffffff;
     --text-muted: #aeb8ca;
     --border: #354157;
     --accent: #8298ff;
     --accent-hover: #9eafff;
     --shadow: 0 16px 34px rgb(0 0 0 / 24%);
 }
+
+
 
 main {
     width: 100%;
@@ -78,6 +80,7 @@ h1 {
 header{
     position: sticky;
     top: 0px;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
     z-index: 1000;             
     background-color: var(--surface); 
     padding: 10px 0px;
@@ -100,6 +103,10 @@ header ul{
     gap: 8px;
 }
 
+.favorites-header .navLinks {
+    margin-left: auto;
+}
+
 #gallery img {
     width: 100%;
     max-width: 220px;
@@ -113,6 +120,54 @@ header ul{
     opacity: 0.6;
 
 }
+.dropbtn {
+    display: flex;
+    background-color: var(--accent);
+    color: var(--surface);
+    height: 40px;
+    width: 100px;
+    text-align: center;
+    justify-content: center;    
+    align-items: center;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: urbanist, sans-serif;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--surface);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+  border-radius:12px;
+  padding: 20px;
+}
+
+.dropdown-content a {
+    color: var(--text);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    border-radius: 12px;
+
+}
+.dropdown-content img {
+    margin-left: auto
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: var(--accent-hover);}
 
 .image-placeholder {
     width: 100%;
@@ -123,6 +178,17 @@ header ul{
     background: linear-gradient(100deg, var(--surface-muted) 30%, var(--surface-hover) 50%, var(--surface-muted) 70%);
     background-size: 200% 100%;
     animation: image-loading 1.4s ease-in-out infinite;
+}
+
+.heart, .logOut{
+    width: 20px;
+    height: 20px;
+
+}
+
+.download{
+    width: 40px;
+    height: 40px;
 }
 
 @keyframes image-loading {
@@ -141,15 +207,15 @@ li {
 
 
 .searchItem {
-    flex: 1;
+    flex: 1 1 auto;
     min-width: 0;
 }
 
 .searchBox {
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 2.5vw;
+    min-width: 100px;
+    height: 40px;
     background-color: var(--surface-muted);
     border-radius: 12px;
     border: 1px solid var(--border);
@@ -158,8 +224,9 @@ li {
 
 #tagInput {
     flex: 1;
+    width: 100%;
     height: 100%;
-    min-width: 0;
+    min-width: 200px;
     padding: 0 10px;
     border: none;
     outline: none;
@@ -200,8 +267,8 @@ header a {
     display: flex;
     background-color: var(--accent);
     color: #ffffff;
-    height: 2.5vw;
-    width: 6vw;
+    height: 40px;
+    width: 100px;
     text-align: center;
     justify-content: center;    
     align-items: center;
@@ -217,8 +284,8 @@ header a {
     display: flex;
     background-color: var(--surface-muted);
     color: var(--text);
-    height: 2.5vw;
-    width: 6vw;
+    height: 40px;
+    width: 100px;
     text-align: center;
     justify-content: center;    
     align-items: center;
@@ -237,10 +304,11 @@ button{
 }
 .om {    
     display: flex;
+    flex: 0 0 80px;
     background-color: transparent;
     color: var(--text);
-    height: 2.5vw;
-    width: 4vw;
+    height: 40px;
+    width: 70px;
     text-align: center;
     justify-content: center;    
     align-items: center;
@@ -250,42 +318,33 @@ button{
 
 .kontakt {    
     display: flex;
+    flex: 0 0 80px;
     background-color: transparent;
     color: var(--text);
-    height: 2.5vw;
-    width: 4vw;
+    height: 40px;
+    width: 70px;
     text-align: center;
     justify-content: center;    
     align-items: center;
     border-radius: 12px;
 }
 
-.nyheter {    
-    display: flex;
-    background-color: transparent;
-    color: var(--text);
-    height: 2.5vw;
-    width: 4vw;
-    text-align: center;
-    justify-content: center;    
-    align-items: center;
-    border-radius: 12px;
-}
+
 
 
 .om,
-.kontakt,
-.nyheter {
+.kontakt {
     text-decoration: none;
     color: var(--text);
 }
-.om:hover, .nyheter:hover, .kontakt:hover {
+.om:hover:hover, .kontakt:hover {
     background-color: var(--surface-muted);
 }
 
 header img{
-    height: 2.5vw;
+    height: 40px;
 }
+
 
 footer {
     display: flex;
@@ -317,14 +376,16 @@ a {
 }
 
 #imageModal::backdrop {
-    background: rgb(0 0 0 / 75%);
+    background: #000000;
+    opacity: 0.75;
 }
 
 .modal-content {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+    grid-template-columns: minmax(0px, 1.5fr) minmax(240px, 1fr);
     gap: 24px;
+    align-items: stretch;
     padding: 24px;
     border-radius: 8px;
     background: var(--surface);
@@ -343,20 +404,25 @@ a {
 }
 
 .modal-image-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
     display: grid;
-    min-height: 300px;
     place-items: center;
+    overflow: hidden;
     background: var(--surface);
 }
 
 .modal-image-wrap img {
-    width: auto;
-    max-width: 100%;
-    max-height: 75vh;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* fills the box evenly */
 }
 
 .modal-details {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    min-height: 0;
+    box-sizing: border-box;
     padding: 24px 0 0;
 }
 
@@ -366,7 +432,7 @@ a {
 
 .coordinates {
     display: grid;
-    gap: 8px;
+    gap: 8px 0px;
     padding: 16px;
     border: 1px solid var(--border);
     border-radius: 4px;
@@ -384,7 +450,8 @@ a {
 
 #map {
     width: 100%;
-    height: 180px;
+    height: 260px;
+    min-height: 260px;
 }
 
 /* Styling för favoritsidan (favourites.php) */
@@ -441,10 +508,43 @@ a {
     display: none;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 850px) {
+
+    .favorites-header .navLinks {
+        grid-column: 5 / span 2;
+        justify-self: end;
+        margin-left: 0;
+    }
+
+    .favorites-header .dropdown {
+        grid-column: 7;
+        justify-self: end;
+    }
+
+    header ul {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        align-items: center;
+        gap: 10px;
+    }
+
+    .searchItem {
+        grid-row: 2;
+        grid-column: span 6;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .searchBox {
+        width: 100%;
+    }
+  
+    
     #gallery {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    
 
     .modal-content {
         grid-template-columns: 1fr;

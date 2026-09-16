@@ -41,18 +41,27 @@ if ($stmt) {
     <script type="module" src="../js/favourites.js"></script>
 </head>
 <body data-logged-in="true">
-    <header class="top-bar">
+    <header class="top-bar favorites-header">
         <ul>
             <li class="logo"><a href="../index.php"><img src="../images/logo.jpg" alt="Logo"></a></li>
                 <button type="button" id="darkmode">☀️</button>
             <li class="navLinks">
                 <a href="../omOss.php" class="om">Om oss</a>
                 <a href="../kontakt.php" class="kontakt">Kontakt</a>
-                <a href="../nyheter.php" class="nyheter">Nyheter</a>
             </li>
-            <li><span class="user">Inloggad som: <?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span></li>
-            <li><a href="favourites.php" class="signUp">Mina favoriter</a></li>
-            <li><a href="../login/logout.php" class="user">Logga ut</a></li>
+            <div class="dropdown">
+                <button class="dropbtn"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></button>
+                <div class="dropdown-content">
+                    <a href="db/favourites.php">
+                        <span>Mina favoriter</span>
+                        <img class="heart" src="../images/favourite.png" alt="Favorit">
+                    </a>
+                    <a href="login/logout.php">
+                        <span>Logga ut</span>
+                        <img class="logOut" src="../images/exit.png" alt="Logga ut">
+                    </a>
+                </div>
+            </div>
         </ul>
     </header>
 
@@ -103,5 +112,10 @@ if ($stmt) {
             </div>
         </div>
     </dialog>
+
+    <footer>
+        <a href="omOss.php">Om oss</a>
+        <a href="kontakt.php">Kontakt</a>
+    </footer>
 </body>
 </html>
