@@ -52,7 +52,7 @@ if ($stmt) {
             <div class="dropdown">
                 <button class="dropbtn"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></button>
                 <div class="dropdown-content">
-                    <a href="db/favourites.php">
+                    <a href="favourites.php">
                         <span>Mina favoriter</span>
                         <img class="heart" src="../images/favourite.png" alt="Favorit">
                     </a>
@@ -93,6 +93,9 @@ if ($stmt) {
             <button class="modal-close" type="button" aria-label="Stäng">&times;</button>
             <div class="modal-image-wrap">
                 <img id="modalImage" src="" alt="">
+                <div class="download-container">
+                    <a id="downloadBtn" href="#" class="download-button"><img class ="download" src="../images/download.png" alt="down"></a>
+                </div>
             </div>
             <div class="modal-details">
                 <h2 id="modalTitle"></h2>
@@ -102,11 +105,11 @@ if ($stmt) {
                     </button>
                     <span id="likeMsg" class="like-msg"></span>
                 </div>
+                
                 <div class="coordinates" aria-label="Bildens koordinater">
                     <span>Latitud: <strong id="modalLatitude"></strong></span>
                     <span>Longitud: <strong id="modalLongitude"></strong></span>
                 </div>
-                <div class="map-placeholder" aria-label="Plats för karta">
                     <div id="map"></div>
                 </div>
             </div>

@@ -64,7 +64,7 @@ $username = $_SESSION['username'] ?? '';
 
     <main>
         
-        <h1 class="tagInput"></h1>
+        <h1 id="resultHeading"></h1>
         <div id="gallery"></div>
     </main>
 
@@ -89,9 +89,7 @@ $username = $_SESSION['username'] ?? '';
                 </div>
 
                 <div class="download-container">
-                    <a id="downloadBtn" href="#" class="download-button">
-                        Ladda ner
-                    </a>
+                    <a id="downloadBtn" href="#" class="download-button"><img class ="download" src="images/download.png" alt="down"></a>
                 </div>
 
                 <div class="coordinates" aria-label="Bildens koordinater">

@@ -2,15 +2,6 @@
 // Enable strict typing for this file.
 declare(strict_types=1);
 
-session_start();
-
-if (empty($_SESSION['user_id']) || ($_SESSION['role'] ?? null) !== 'user') {
-    http_response_code(401);
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['error' => 'Här har du inte att göra.']);
-    exit;
-}
-
 // Fetch enough results to return up to 30 images with coordinates.
 const TARGET_PHOTOS = 30;
 $maxFetches = 20;

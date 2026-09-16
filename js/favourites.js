@@ -4,12 +4,16 @@ const gallery = document.getElementById("gallery");
 const modalGallery = new bild("gallery", "favoriter", "../api/");
 const darkModeButton = document.getElementById("darkmode");
 const logoImage = document.querySelector(".logo img");
+const downloadImage = document.querySelector(".download");
 
 // Apply the selected theme and keep the toggle button accessible.
 function setDarkMode(enabled) {
     document.body.classList.toggle("dark-mode", enabled);
     if (logoImage) {
         logoImage.src = enabled ? "../images/darkModeLogo.png" : "../images/logo.jpg";
+    }
+        if (downloadImage) {
+        downloadImage.src = enabled ? "../images/darkModeDownload.png" : "../images/download.png";
     }
     if (darkModeButton) {
         darkModeButton.textContent = enabled ? "☀️" : "🌙";

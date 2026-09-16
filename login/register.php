@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	<main class="auth-shell">
 	<section class="auth-panel">
-	<div class="logo"><a href="/"><img src="../images/logo.jpg" alt="Logo"></a></div>
+	<div class="logo"><a href="../index.php"><img src="../images/logo.jpg" alt="Logo"></a></div>
 	<h1>Skapa konto</h1>
 	<?php if ($error !== null): ?>
 		<p role="alert"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
