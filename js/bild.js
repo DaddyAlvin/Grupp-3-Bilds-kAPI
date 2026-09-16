@@ -9,8 +9,6 @@ export class bild {
         this.modalTitle = document.getElementById("modalTitle");
         this.modalLatitude = document.getElementById("modalLatitude");
         this.modalLongitude = document.getElementById("modalLongitude");
-        this.map = null;
-        this.marker = null;
 
         this.likeBtn = document.getElementById("likeBtn");
         this.likeIcon = document.getElementById("likeIcon");
@@ -86,7 +84,6 @@ export class bild {
         for (let index = 0; index < 30; index += 1) {
             const placeholder = document.createElement("div");
             placeholder.className = "image-placeholder";
-            placeholder.setAttribute("aria-hidden", "true");
             this.container.appendChild(placeholder);
         }
     }
