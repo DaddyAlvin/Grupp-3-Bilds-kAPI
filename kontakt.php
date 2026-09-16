@@ -32,14 +32,35 @@
                 </ul>
             </form>
         </header>
-</body>
-    <main>
-        <h1>0705477528 - 50 kr swish TACK 😍</h1>
-        <p>Kontakta oss gärna via PayPal eller swish.</p>
-        <p>GMAIL: edwin.lund@elev.ga.ntig.se</p>
-        <p>Om du har frågor, lägg en swish till Edwin!.</p>
-        <p>Sen finns de andra medlämmar men ja kan inte deras telefonnummer eller gmail!! TYVVÄRR</p>
+    <main class="contact-page">
+        <h1>Kontakta oss</h1>
 
+        <p class="contact-intro">Har du frågor eller vill du komma i kontakt med oss? Vi finns här för dig.</p>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h2>Edwin</h2>
+                <p><strong>E-post:</strong> edwin.lund@elev.ga.ntig.se</p>
+                <p><strong>Telefon:</strong> 0705477528</p>
+            </div>
+
+            <div class="contact-card">
+                <h2>Alvin</h2>
+                <p><strong>E-post:</strong> alvin_sandgren@outlook.com</p>
+                <p><strong>Telefon:</strong> 070-29 55 107</p>
+            </div>
+
+            <div class="contact-card">
+                <h2>Alexsander</h2>
+                <p><strong>E-post:</strong> alexsander.sudol@elev.ga.ntig.se</p>
+                <p><strong>Telefon:</strong> 0700932705</p>
+            </div>
+        </div>
     </main>
+
+    <footer>
+        <a href="omOss.php">Om oss</a>
+        <a href="kontakt.php">Kontakt</a>
+    </footer>
 </body>
 </html>

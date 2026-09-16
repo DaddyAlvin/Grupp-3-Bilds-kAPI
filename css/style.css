@@ -17,6 +17,9 @@ body {
     color: var(--text);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-family: urbanist, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -35,25 +38,116 @@ body.dark-mode {
     --shadow: 0 16px 34px rgb(0 0 0 / 24%);
 }
 
-main {
-    width: 100%;
-    min-height: 1000px;
+
+.contact-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 20px 10%;
+}
+
+.contact-intro {
+    margin: 0 0 18px;
+    max-width: 760px;
+}
+
+.contact-grid {
+    width: 100%;
+    display: grid;
+    gap: 18px;
+    justify-items: center;
+}
+
+.contact-card {
+    width: min(760px, 100%);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px 24px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-card h2,
+.contact-card p {
+    margin: 0;
+}
+
+body.dark-mode .contact-card {
+    background: rgba(24, 31, 46, 0.9);
+    border-color: var(--border);
+}
+
+
+/* FAN VA JA HATAR CSSS */
+.about-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
     box-sizing: border-box;
 }
 
-main p,
-main ul,
-main li,
-main h1,
-main h2 {
+.about-box {
+    margin-top: 50px;
+    width: min(900px, 100%);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px 24px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+body.dark-mode .about-box {
+    background: rgba(24, 31, 46, 0.9);
+    border-color: var(--border);
+}
+
+.about-box h1,
+.about-box h2,
+.about-box p,
+.about-box li {
     text-align: center;
 }
 
-main ul {
+.about-box h1 {
+    margin: 0 0 12px;
+}
+
+.about-box h2 {
+    margin: 0 0 8px;
+}
+
+.about-box p,
+.about-box li {
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 8px 0;
+}
+
+.about-box ul {
     list-style: none;
     padding: 0;
+    margin: 10px 0 0;
+}
+
+main {
+    width: 100%;
+    flex: 1;
 }
 
 h1 {
@@ -310,10 +404,9 @@ footer {
     width: 100%;
     align-items: center;
     gap: 24px;
-    margin-top: 20px;
+    margin-top: auto;
     background-color: var(--accent);
     height: 100px;
-
 }
 
 footer a {

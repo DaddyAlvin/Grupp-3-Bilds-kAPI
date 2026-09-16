@@ -33,20 +33,29 @@
             </form>
         </header>
 
-    <main>
+    <main class="about-page">
+        <div class="about-box">
+            <h1>Välkommen till världens bästa bildsökningssida!</h1>
+            <p>
+                Vi är dedikerade till att ge dig den bästa upplevelsen när det gäller att söka och upptäcka bilder online.
+                Vårt mål är att göra det enkelt och roligt att hitta precis det du letar efter.
+            </p>
+            <p>
+                Tack för att du besöker vår sida. Vi hoppas att du hittar allt du behöver och att din upplevelse blir både inspirerande och givande.
+            </p>
+        </div>
         
-        <h1>Välkommen till världens bästa bildsökningssida!</h1>
-        <p>Vi är dedikerade till att ge dig den bästa upplevelsen när det gäller att söka och upptäcka bilder online. Vårt mål är att göra det enkelt och roligt att hitta precis det du letar efter.</p>
-        <p>Tack för att du besöker vår sida. Vi hoppas att du hittar allt du behöver och att din upplevelse blir både inspirerande och givande.</p>
-        <h1>Vårt team</h1>
-        <p>Vi är tre studenter som brinner för programmering och bildsökning. Tillsammans arbetar vi för att skapa den bästa möjliga upplevelsen för våra användare.</p>
-        <ul>
-            <li>Edwin - Frontend-utveckling</li>
-            <li>Alvin - Backend-utveckling</li>
-            <li>Alexsander - Style och design</li>
-        </ul>
-
-        
+        <div class="about-box">
+            <h2>Vårt team</h2>
+            <p>
+                Vi är tre studenter som brinner för programmering och bildsökning. Tillsammans arbetar vi för att skapa den bästa möjliga upplevelsen för våra användare.
+            </p>
+            <ul>
+                <li>Edwin - Frontend-utveckling</li>
+                <li>Alvin - Backend-utveckling</li>
+                <li>Alexsander - Style och design</li>
+            </ul>
+        </div>
     </main>
     <footer>
         <a href="omOss.php">Om oss</a>
