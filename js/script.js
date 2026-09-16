@@ -5,11 +5,15 @@ const tagInput = document.getElementById("tagInput");
 const tags = JSON.parse(localStorage.getItem("tags") || "[]");
 const frontPageTags = ["cats", "dogs", "nature", "technology", "architecture", "food", "travel", "history"];
 const darkModeButton = document.getElementById("darkmode");
+const logoImage = document.querySelector(".logo img");
 
 let gallery;
 
 function setDarkMode(enabled) {
     document.body.classList.toggle("dark-mode", enabled);
+    if (logoImage) {
+        logoImage.src = enabled ? "images/darkModeLogo.png" : "images/logo.jpg";
+    }
     darkModeButton.textContent = enabled ? "☀️" : "🌙";
     darkModeButton.setAttribute("aria-label", enabled ? "Byt till ljust läge" : "Byt till mörkt läge");
     darkModeButton.setAttribute("aria-pressed", String(enabled));
@@ -21,8 +25,12 @@ function getRandomTag(tagList) {
     return tagList[randomIndex];
 }
 
+const resultHeading = document.querySelector(".tagInput");
+
 function loadGallery(tag) {
     tagInput.value = tag;
+    resultHeading.textContent = `${tag}`;
+
     gallery ??= new bild("gallery", tag);
     gallery.tag = tag;
     gallery.load();

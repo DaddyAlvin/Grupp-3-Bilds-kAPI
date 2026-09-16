@@ -1,3 +1,9 @@
+<?php
+session_start();
+$isLoggedIn = !empty($_SESSION['user_id']);
+$username = $_SESSION['username'] ?? '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +28,8 @@
                     </li>
                 
                     <li class="navLinks">
-                        <button class="om" onclick="document.location='omOss.php'">Om oss</button>
-                        <button class="företag" onclick="document.location='foretag.php'">Företag</button>
-                        <button class="nyheter" onclick="document.location='nyheter.php'">Nyheter</button>
+                        <a class="om" href="omOss.php">Om oss</a>
+                        <a class="kontakt" href="kontakt.php">Kontakt</a>
                     </li>
                     <button class="user" onclick="document.location='login.php'">Logga in</button>
                     <button class="signUp" onclick="document.location='signup.php'">Skapa konto</button>
@@ -34,7 +39,8 @@
 
     <main>
         
-        <h1>Vällkommen till världens bästa bildsökningssida!</h1>
+        <h1>Den här bildsöknings sidan är gjort av 3st te4 studenter</h1>
+        <h1>Vi är Aleksander Sudol, Edwin Lund och Alvin Sandgren</h1>
     </main>
     <footer>
         <a href="omOss.php">Om oss</a>

@@ -17,7 +17,6 @@ $username = $_SESSION['username'] ?? '';
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 </head>
@@ -26,6 +25,7 @@ $username = $_SESSION['username'] ?? '';
         <form id="findUserSearch">
             <ul>
                 <li class="logo"><a href="/"><img src="images/logo.jpg" alt="Logo"></a></li>
+                <button type="button" id="darkmode">☀️</button>
                 <li class="searchItem">
                     <div class="searchBox">
                         <button type="submit" class="searchButton" aria-label="Sök">
@@ -34,16 +34,26 @@ $username = $_SESSION['username'] ?? '';
                         <input id="tagInput" type="search" placeholder="Sök efter bilder" required>
                     </div>
                 </li>
-                <button type="button" id="darkmode">☀️</button>
+                
                 <li class="navLinks">
                     <a href="omOss.php" class="om">Om oss</a>
                     <a href="kontakt.php" class="kontakt">Kontakt</a>
-                    <a href="nyheter.php" class="nyheter">Nyheter</a>
                 </li>
                 <?php if ($isLoggedIn): ?>
-                    <li><span class="user">Inloggad som: <?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span></li>
-                    <li><a href="db/favourites.php" class="signUp">Mina favoriter</a></li>
-                    <li><a href="login/logout.php" class="user">Logga ut</a></li>
+                    <div class="dropdown">
+                <button class="dropbtn"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></button>
+                <div class="dropdown-content">
+                    <a href="db/favourites.php">
+                        <span>Mina favoriter</span>
+                        <img class="heart" src="images/favourite.png" alt="Favorit">
+                    </a>
+                    <a href="login/logout.php">
+                        <span>Logga ut</span>
+                        <img class="logOut" src="images/exit.png" alt="Logga ut">
+                    </a>
+                </div>
+            </div>
+                    
                 <?php else: ?>
                     <li><a href="login/login.php" class="user">Logga in</a></li>
                     <li><a href="login/register.php" class="signUp">Skapa konto</a></li>
@@ -53,7 +63,8 @@ $username = $_SESSION['username'] ?? '';
     </header>
 
     <main>
-        <h1>Klicka på en bild för att se var någonstans på jorden som den tagits</h1>
+        
+        <h1 class="tagInput"></h1>
         <div id="gallery"></div>
     </main>
 
@@ -71,6 +82,10 @@ $username = $_SESSION['username'] ?? '';
                         <span id="likeIcon">🤍</span> <span id="likeText">Spara som favorit</span>
                     </button>
                     <span id="likeMsg" class="like-msg"></span>
+                </div>  
+
+                <div class="download-container">
+                    <a id="downloadBtn" href="#" class="download-button"><img class ="download" src="images/download.png" alt="down"></a>
                 </div>
 
                 <div class="coordinates" aria-label="Bildens koordinater">

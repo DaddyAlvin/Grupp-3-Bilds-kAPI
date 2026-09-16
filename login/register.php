@@ -71,8 +71,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<link rel="stylesheet" href="../css/login.css">
 </head>
 <body class="auth-page">
+
+        
+
+
 	<main class="auth-shell">
 	<section class="auth-panel">
+	<div class="logo"><a href="/"><img src="../images/logo.jpg" alt="Logo"></a></div>
 	<h1>Skapa konto</h1>
 	<?php if ($error !== null): ?>
 		<p role="alert"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
@@ -86,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<input id="password_confirmation" type="password" name="password_confirmation" minlength="8" required>
 		<button type="submit">Skapa konto</button>
 	</form>
-	<p class="auth-footer">Har du redan ett konto? <a href="../index.php">Logga in</a></p>
+	<p class="auth-footer">Har du redan ett konto? <a href="login.php">Logga in</a></p>
 	</section>
 	</main>
 </body>
