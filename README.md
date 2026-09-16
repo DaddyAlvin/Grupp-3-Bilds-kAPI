@@ -18,7 +18,25 @@ Avin: Idag har jag förbättrat prestandan på sidan och löst vissa buggar, sen
 
 ###
 
-Aleksander:
+Aleksander: justera färgschemat, anpassa undersidorna
 
 ###
 Edwin:
+
+fredag 11/09
+Aleksander: gjorde css på login/sign up sidan, mobilanpassade startsidan, 
+
+###
+Alvin: Idag har jag fortsatt bugfixa och implementera element från de andra, en första prototyp är uppe på domänet och databas och det är kopplat för det.
+
+måndag 14/09:
+Aleksander: vidare utvecklade mobilanpassning, gjorde om en del av startsidan, lade till loggan(som en hemknapp) i log in sidan
+
+###
+Alvin: utvecklad säkerhet, kommentering av koden, effektivisering/bugfixning av logiken
+
+15/09
+Alvin: Ännu bättre säkerhet med begränsning av ip, downloadfunktion, mer finslip
+
+###
+Aleksander: gjorde om startsidan, införde en dropdown meny för favoriter och log out, hittade fram nya ikoner
