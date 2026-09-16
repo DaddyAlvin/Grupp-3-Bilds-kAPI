@@ -88,12 +88,17 @@ $username = $_SESSION['username'] ?? '';
                     <a id="downloadBtn" href="#" class="download-button"><img class ="download" src="images/download.png" alt="down"></a>
                 </div>
 
+                <div class="download-container">
+                    <a id="downloadBtn" href="#" class="download-button">
+                        Ladda ner
+                    </a>
+                </div>
+
                 <div class="coordinates" aria-label="Bildens koordinater">
                     <span>Latitud: <strong id="modalLatitude"></strong></span>
                     <span>Longitud: <strong id="modalLongitude"></strong></span>
                 </div>
                 <div class="map-placeholder" aria-label="Plats för karta">
-                    <span>Karta kommer senare</span>
                     <div id="map"></div>
                 </div>
             </div>

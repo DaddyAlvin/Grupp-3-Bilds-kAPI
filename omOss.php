@@ -28,8 +28,8 @@ $username = $_SESSION['username'] ?? '';
                     </li>
                 
                     <li class="navLinks">
-                        <a class="om" href="omOss.php">Om oss</a>
-                        <a class="kontakt" href="kontakt.php">Kontakt</a>
+                        <button class="om" onclick="document.location='omOss.php'">Om oss</button>
+                        <button class="kontakt" onclick="document.location='kontakt.php'">Kontakt</button>
                     </li>
                     <button class="user" onclick="document.location='login.php'">Logga in</button>
                     <button class="signUp" onclick="document.location='signup.php'">Skapa konto</button>

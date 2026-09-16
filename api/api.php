@@ -17,6 +17,10 @@ const WIKIMEDIA_USER_AGENT = 'BildsokAPI/1.0 (contact: alvin_sandgren@icloud.com
 // Request up to 50 images per Wikimedia page.
 const PHOTOS_PER_PAGE = 50;
 
+// Basic abuse protection: a single IP should not be able to hammer the API too hard.
+const RATE_LIMIT_WINDOW_SECONDS = 60;
+const RATE_LIMIT_MAX_REQUESTS = 30;
+
 // The API works as a server-side proxy against Wikimedia Commons.
 // JavaScript always receives JSON instead of HTML or a finished image view.
 header('Content-Type: application/json; charset=utf-8');
@@ -38,6 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Reject all methods other than GET before starting a search.
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 	respond(['error' => 'Metoden stöds inte.'], 405);
+}
+
+// Apply a lightweight per-IP rate limit to reduce spam and accidental overload.
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+	enforceRateLimit();
 }
 
 // Read the requested page and ensure it is never lower than 1.
